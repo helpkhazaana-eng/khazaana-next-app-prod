@@ -16,6 +16,7 @@ export default function SignInPage() {
   const [error, setError] = useState('');
   const [needsMFA, setNeedsMFA] = useState(false);
   const [mfaCode, setMfaCode] = useState('');
+  const [mfaType, setMfaType] = useState<'totp' | 'email_code'>('totp');
   const router = useRouter();
 
   // Handle MFA verification
@@ -33,7 +34,7 @@ export default function SignInPage() {
 
     try {
       const result = await signIn.attemptSecondFactor({
-        strategy: 'totp',
+        strategy: mfaType,
         code: mfaCode,
       });
 
@@ -76,8 +77,28 @@ export default function SignInPage() {
         await setActive({ session: result.createdSessionId });
         router.push('/admin');
       } else if (result.status === 'needs_second_factor') {
-        // MFA is required - show MFA input
-        setNeedsMFA(true);
+        // Check available strategies
+        const secondFactors = result.supportedSecondFactors || [];
+        const hasEmailCode = secondFactors.some((f: any) => f.strategy === 'email_code');
+        const hasTOTP = secondFactors.some((f: any) => f.strategy === 'totp');
+
+        if (hasEmailCode) {
+          // Send email code immediately
+          await signIn.prepareFirstFactor({ strategy: 'email_code', emailAddressId: result.identifier as string }); 
+          // Note: for second factor, we typically use prepareSecondFactor, but let's check docs or infer.
+          // actually for second factor it is prepareSecondFactor
+          const emailFactor = secondFactors.find((f: any) => f.strategy === 'email_code');
+          if (emailFactor) {
+             await signIn.prepareSecondFactor({ strategy: 'email_code', emailAddressId: emailFactor.emailAddressId });
+          }
+          setMfaType('email_code');
+          setNeedsMFA(true);
+        } else if (hasTOTP) {
+          setMfaType('totp');
+          setNeedsMFA(true);
+        } else {
+           setError('No supported 2FA method found (Email or TOTP required)');
+        }
         setError('');
       } else {
         console.error('Sign in status:', result.status);
@@ -153,8 +174,14 @@ export default function SignInPage() {
                       <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-3">
                         <ShieldCheck className="w-6 h-6 text-orange-500" />
                       </div>
-                      <h2 className="text-lg font-semibold text-white mb-1">Two-Factor Authentication</h2>
-                      <p className="text-xs text-neutral-400">Enter the 6-digit code from your authenticator app</p>
+                      <h2 className="text-lg font-semibold text-white mb-1">
+                        {mfaType === 'email_code' ? 'Email Verification' : 'Two-Factor Authentication'}
+                      </h2>
+                      <p className="text-xs text-neutral-400">
+                        {mfaType === 'email_code' 
+                          ? `Enter the 6-digit code sent to ${email}`
+                          : 'Enter the 6-digit code from your authenticator app'}
+                      </p>
                     </div>
 
                     <div className="space-y-1.5">
