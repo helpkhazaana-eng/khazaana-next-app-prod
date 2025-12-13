@@ -1,0 +1,125 @@
+# ============================================================
+# KHAZAANA NEXT.JS - GITIGNORE
+# ============================================================
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js build output
+/.next/
+/out/
+/build/
+
+# Testing
+/coverage/
+
+# ============================================================
+# ENVIRONMENT & SECRETS (CRITICAL - NEVER COMMIT)
+# ============================================================
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+!.env.example
+
+# Firebase service account keys (CRITICAL)
+*-firebase-adminsdk-*.json
+firebase-adminsdk*.json
+service-account*.json
+*.p12
+*.key
+
+# API keys and credentials
+*.pem
+secrets/
+credentials/
+
+# ============================================================
+# IDE & EDITOR
+# ============================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# ============================================================
+# OS FILES
+# ============================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ============================================================
+# DEBUG & LOGS
+# ============================================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+*.log
+logs/
+
+# ============================================================
+# PWA SERVICE WORKER (Auto-generated)
+# ============================================================
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/worker-*.js
+public/worker-*.js.map
+public/swe-worker-*.js
+public/fallback-*.js
+
+# ============================================================
+# TYPESCRIPT
+# ============================================================
+*.tsbuildinfo
+next-env.d.ts
+
+# ============================================================
+# SENTRY
+# ============================================================
+.sentryclirc
+
+# ============================================================
+# TESTING & REPORTS
+# ============================================================
+*.json.bak
+localhost*.json
+*.lighthouse.json
+lighthouse-report*.html
+
+# ============================================================
+# MISC
+# ============================================================
+*.local
+.vercel
+.turbo
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

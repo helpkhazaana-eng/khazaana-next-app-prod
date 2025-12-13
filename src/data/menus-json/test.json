@@ -1,0 +1,51 @@
+[
+  {
+    "itemName": "Chicken Biryani Full",
+    "price": 100,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Biryani Half",
+    "price": 80,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Biryani Full",
+    "price": 70,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Biryani Half",
+    "price": 50,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Special Chicken Biryani (2 pcs chicken, 2 aloo)",
+    "price": 150,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Extra Piece",
+    "price": 40,
+    "category": "Add-on",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Extra Piece",
+    "price": 5,
+    "category": "Add-on",
+    "vegNonVeg": "Veg",
+    "description": ""
+  }
+]

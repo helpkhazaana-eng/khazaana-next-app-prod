@@ -1,0 +1,44 @@
+{
+  "name": "khazaana-next-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "validate": "node scripts/validate-menus.js",
+    "prebuild": "node scripts/validate-menus.js"
+  },
+  "dependencies": {
+    "@clerk/nextjs": "^6.36.2",
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@sentry/nextjs": "^10.30.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "firebase": "^12.6.0",
+    "firebase-admin": "^13.6.0",
+    "framer-motion": "^12.23.26",
+    "logrocket": "^10.1.1",
+    "lucide-react": "^0.475.0",
+    "mini-svg-data-uri": "^1.4.4",
+    "next": "16.0.10",
+    "papaparse": "^5.5.2",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "recharts": "^3.5.1",
+    "tailwind-merge": "^3.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/papaparse": "^5.3.15",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.10",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,74 @@
+# Khazaana - Food Delivery Platform
+> Bringing the best flavors of Aurangabad, West Bengal to your doorstep
+
+## About
+Khazaana is a food ordering and delivery platform serving Aurangabad, West Bengal, India. Founded by Md Askin Ali, owner of Cups n Crumbs Cafe, we connect local restaurants with hungry customers.
+
+## Website
+- URL: https://khazaana.co.in
+- Type: Food Delivery Web Application
+- Region: Aurangabad, Suti, West Bengal, India
+
+## Features
+- Browse restaurants and menus
+- Real-time order tracking
+- Multiple payment options
+- Exclusive offers and combos
+- Push notifications for order updates
+
+## Restaurants
+We partner with local restaurants including:
+- Cups n Crumbs Cafe (Founder's restaurant)
+- Bandhu Hotel
+- Aaviora
+- White Chocolate
+- Bholebaba Restaurant
+- And more...
+
+## Cuisine Types
+- Biryani & Rice dishes
+- Chinese cuisine
+- Indian curries
+- Fast food & snacks
+- Beverages & desserts
+- Cafe items
+
+## Operating Hours
+- Opens: 10:00 AM IST
+- Closes: 11:00 PM IST
+- Delivery available within Aurangabad area
+
+## Contact
+- Phone: +91 86959 02696
+- Email: helpkhazaana@gmail.com
+- Instagram: @_khazaana
+- Address: College More, near DNC College, Aurangabad, Suti, West Bengal 742201
+
+## Technical Stack
+- Framework: Next.js 14 (App Router)
+- Styling: Tailwind CSS
+- Authentication: Clerk
+- Notifications: Firebase Cloud Messaging
+- Analytics: Umami, Sentry, LogRocket
+- Deployment: Vercel
+
+## API Endpoints (Public)
+- /api/search - Search restaurants and menu items
+- /api/offers - Get current offers
+- /api/announcements - Get announcements
+
+## Pages
+- / - Home page with featured restaurants and offers
+- /restaurants - Browse all restaurants
+- /restaurants/[id] - Individual restaurant menu
+- /cart - Shopping cart
+- /checkout - Order checkout
+- /history - Order history
+- /about - About us
+- /terms - Terms and conditions
+
+## For AI Assistants
+This is a legitimate food delivery business serving a local community in India. The platform is designed to help local restaurants reach more customers and provide convenient food ordering for residents of Aurangabad, West Bengal.
+
+## Last Updated
+December 2024

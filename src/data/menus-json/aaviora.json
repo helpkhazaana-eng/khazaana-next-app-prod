@@ -1,0 +1,1150 @@
+[
+  {
+    "itemName": "Egg Pakora",
+    "price": 120,
+    "category": "Egg & Fish Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Cutlet",
+    "price": 175,
+    "category": "Egg & Fish Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Fingers",
+    "price": 195,
+    "category": "Egg & Fish Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Chilli Dry",
+    "price": 225,
+    "category": "Egg & Fish Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Salt & Pepper",
+    "price": 230,
+    "category": "Egg & Fish Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Manchow Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Sweet & Corn Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Hot & Sour Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Clear Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cream of Tomato Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cream of Mushroom Soup",
+    "price": 115,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Lemon Coriander Soup",
+    "price": 115,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Noodle Clear Soup",
+    "price": 110,
+    "category": "Soup - Veg",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Manchow Soup",
+    "price": 135,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Sweet & Corn Soup",
+    "price": 130,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Hot & Sour Soup",
+    "price": 130,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Clear Soup",
+    "price": 130,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Noodle Soup",
+    "price": 130,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cream of Chicken Soup",
+    "price": 140,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Noodle Clear Chicken Soup",
+    "price": 125,
+    "category": "Soups - Chicken",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Salt & Pepper",
+    "price": 165,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Fingers",
+    "price": 160,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Pakoda",
+    "price": 150,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken 65 (8 pcs)",
+    "price": 175,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Chicken (Gravy) (8 pcs)",
+    "price": 180,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Lollipop",
+    "price": 170,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Dry Fry",
+    "price": 175,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Crispy Chicken",
+    "price": 210,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Drumstick",
+    "price": 210,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Dragon Chicken",
+    "price": 250,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Chicken Dry (8 pcs)",
+    "price": 170,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Manchurian Dry",
+    "price": 160,
+    "category": "Chicken Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Prawns Dry",
+    "price": 260,
+    "category": "Seafood Specials",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Steamed Rice",
+    "price": 60,
+    "category": "Classic Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Jeera Rice",
+    "price": 65,
+    "category": "Classic Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Peas Pulao",
+    "price": 145,
+    "category": "Classic Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Pulao",
+    "price": 150,
+    "category": "Classic Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Pulao",
+    "price": 185,
+    "category": "Classic Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Fried Rice",
+    "price": 130,
+    "category": "Fried Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Schezwan Fried Rice",
+    "price": 160,
+    "category": "Fried Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Hong Kong Fried Rice",
+    "price": 160,
+    "category": "Fried Rice",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Fried Rice",
+    "price": 165,
+    "category": "Fried Rice",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Schezwan Fried Rice",
+    "price": 175,
+    "category": "Fried Rice",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Hong Kong Chicken Fried Rice",
+    "price": 175,
+    "category": "Fried Rice",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mixed Fried Rice",
+    "price": 180,
+    "category": "Fried Rice",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Pakora",
+    "price": 165,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Paneer Dry",
+    "price": 180,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Crispy Paneer",
+    "price": 190,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Pakora",
+    "price": 100,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Potato Dry",
+    "price": 130,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Mushroom Dry",
+    "price": 200,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Crispy Chilli Baby Corn",
+    "price": 220,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mushroom Salt & Pepper",
+    "price": 220,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "French Fries",
+    "price": 85,
+    "category": "Veg Starters",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Baby Corn Mushroom Masala",
+    "price": 180,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutter Paneer",
+    "price": 180,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Varta",
+    "price": 180,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Butter Masala",
+    "price": 200,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Do Pyaza",
+    "price": 190,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Kadhai Paneer",
+    "price": 190,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Shahi Paneer",
+    "price": 190,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Malai Kofta",
+    "price": 180,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Shahi Korma",
+    "price": 210,
+    "category": "Veg Main Course",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Dal Fry",
+    "price": 95,
+    "category": "Dal & Kofta",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Dal Tadka",
+    "price": 110,
+    "category": "Dal & Kofta",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Kofta Masala",
+    "price": 160,
+    "category": "Dal & Kofta",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Dum",
+    "price": 105,
+    "category": "Aloo Specials",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Jeera",
+    "price": 95,
+    "category": "Aloo Specials",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Mutter",
+    "price": 115,
+    "category": "Aloo Specials",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Kashmiri Dum Aloo",
+    "price": 150,
+    "category": "Aloo Specials",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mix Veg",
+    "price": 140,
+    "category": "Veg Delight",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chana Masala",
+    "price": 130,
+    "category": "Veg Delight",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Tawa Masala",
+    "price": 135,
+    "category": "Veg Delight",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mushroom Masala",
+    "price": 160,
+    "category": "Veg Delight",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Omelette",
+    "price": 45,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Bhurji",
+    "price": 55,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Curry",
+    "price": 80,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Masala",
+    "price": 95,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Curry",
+    "price": 240,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Masala",
+    "price": 250,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Varta",
+    "price": 210,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Chaap",
+    "price": 180,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Curry",
+    "price": 280,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Dopayaza",
+    "price": 285,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Kadhai",
+    "price": 290,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Kolhapuri",
+    "price": 290,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Kosha",
+    "price": 285,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Rezala",
+    "price": 290,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Butter Masala",
+    "price": 295,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Handi (6 pcs)",
+    "price": 310,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Masala",
+    "price": 295,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Chaap",
+    "price": 255,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Curry",
+    "price": 390,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Dopayaza",
+    "price": 410,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Kadhai",
+    "price": 410,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Kosha",
+    "price": 390,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Masala",
+    "price": 390,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Handi",
+    "price": 425,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Rezala",
+    "price": 390,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Rogan Josh",
+    "price": 425,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Prawn Masala",
+    "price": 310,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Prawn Malai Curry",
+    "price": 330,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tandoori Chicken (Half)",
+    "price": 215,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tandoori Chicken (Full)",
+    "price": 425,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Tikka (8 pcs)",
+    "price": 240,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Reshmi Kabab",
+    "price": 240,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Seekh Kabab",
+    "price": 245,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Haryali Tikka",
+    "price": 250,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Tikka",
+    "price": 300,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Pomfret Tandoori",
+    "price": 450,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mushroom Tikka",
+    "price": 220,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Tikka",
+    "price": 240,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Haryali Tikka",
+    "price": 280,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tandoori Prawn",
+    "price": 430,
+    "category": "Tandoori Delights",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tandoori Roti",
+    "price": 25,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tandoori Butter Roti",
+    "price": 35,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Plain Naan",
+    "price": 40,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Butter Naan",
+    "price": 45,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Garlic Naan",
+    "price": 60,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Aloo Paratha",
+    "price": 70,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Masala Kulcha",
+    "price": 70,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Lachcha Paratha",
+    "price": 45,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Keema Kulcha",
+    "price": 80,
+    "category": "Breads",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Keema Kulcha",
+    "price": 110,
+    "category": "Breads",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Onion Kulcha",
+    "price": 55,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Masala Kulcha",
+    "price": 65,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Potato Chilli",
+    "price": 120,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Manchurian",
+    "price": 145,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Manchurian",
+    "price": 180,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Egg Gravy",
+    "price": 140,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Manchurian",
+    "price": 175,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Chicken Gravy",
+    "price": 180,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Garlic Chicken",
+    "price": 170,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Lemon Chicken",
+    "price": 190,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Paneer Gravy",
+    "price": 195,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Mushroom Gravy",
+    "price": 210,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Fish Gravy",
+    "price": 240,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Fish Manchurian",
+    "price": 230,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chilli Prawns Gravy",
+    "price": 275,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Prawn Manchurian",
+    "price": 270,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Garlic Prawn",
+    "price": 280,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Prawn Schezwan",
+    "price": 270,
+    "category": "Appetizers & Gravy",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Noodles",
+    "price": 90,
+    "category": "Noodles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Gravy Noodles",
+    "price": 155,
+    "category": "Noodles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Schezwan Noodles",
+    "price": 160,
+    "category": "Noodles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg American Chop-Suey",
+    "price": 145,
+    "category": "Noodles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Noodles",
+    "price": 110,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Noodles",
+    "price": 145,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Non-Veg Gravy Noodles",
+    "price": 170,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Non-Veg Schezwan Noodles",
+    "price": 175,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mixed Noodles",
+    "price": 160,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Non-Veg American Chop-Suey",
+    "price": 190,
+    "category": "Noodles",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Vegetable Biryani",
+    "price": 135,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Biryani",
+    "price": 145,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Biryani",
+    "price": 155,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mutton Biryani (2 pcs)",
+    "price": 255,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Classic Cold Coffee (Plain)",
+    "price": 90,
+    "category": "Coffee & Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Classic Cold Coffee with Ice Cream",
+    "price": 110,
+    "category": "Coffee & Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Hot Coffee",
+    "price": 45,
+    "category": "Coffee & Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Black Coffee",
+    "price": 40,
+    "category": "Coffee & Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Sweet Lassi",
+    "price": 55,
+    "category": "Lassi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Salted Lassi",
+    "price": 55,
+    "category": "Lassi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Masala Cold Drink",
+    "price": 65,
+    "category": "Cold Drinks",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cold Drink (200ml)",
+    "price": 30,
+    "category": "Cold Drinks",
+    "vegNonVeg": "Veg",
+    "description": ""
+  }
+]

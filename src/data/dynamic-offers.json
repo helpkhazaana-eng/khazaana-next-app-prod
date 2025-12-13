@@ -1,0 +1,17 @@
+[
+  {
+    "id": "chicken-burger-and-chaat-combo",
+    "dishName": "CHICKEN BURGER AND CHAAT COMBO",
+    "description": "2 CHICKEN BURGER + 1 SAMOSA CHAAT",
+    "restaurantId": "cupsncrumbs",
+    "restaurantName": "Cups N Crumbs",
+    "originalPrice": 220,
+    "offerPrice": 180,
+    "discountPercent": 18,
+    "deliveryCharge": 0,
+    "startDate": "2025-12-01",
+    "endDate": "2025-12-02",
+    "isActive": false,
+    "vegNonVeg": "Non-Veg"
+  }
+]

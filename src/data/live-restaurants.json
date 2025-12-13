@@ -1,0 +1,153 @@
+[
+  {
+    "id": "cupsncrumbs",
+    "name": "Cups N Crumbs",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Cafe",
+    "featured": true,
+    "rating": 4.4,
+    "cuisine": [
+      "Cafe",
+      "Bakery"
+    ],
+    "priceRange": "₹₹",
+    "costForTwo": 200,
+    "menuFile": "cupsncrumbs.csv",
+    "adminStatus": "live",
+    "priority": 1
+  },
+  {
+    "id": "aaviora",
+    "name": "Aaviora",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Chinese",
+    "featured": false,
+    "rating": 4.5,
+    "cuisine": [
+      "Chinese",
+      "Asian"
+    ],
+    "priceRange": "₹₹",
+    "costForTwo": 200,
+    "menuFile": "aaviora.csv",
+    "adminStatus": "live",
+    "priority": 3
+  },
+  {
+    "id": "bandhu-hotel",
+    "name": "Bandhu Hotel",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Indian",
+    "featured": false,
+    "rating": 4.2,
+    "cuisine": [
+      "Indian",
+      "Bengali"
+    ],
+    "priceRange": "₹₹",
+    "costForTwo": 200,
+    "menuFile": "bandhu-hotel.csv",
+    "priority": 2,
+    "adminStatus": "live"
+  },
+  {
+    "id": "bholebaba",
+    "name": "Bhole Baba Roll Corner",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Street Food",
+    "featured": false,
+    "rating": 4,
+    "cuisine": [
+      "Street Food",
+      "Snacks"
+    ],
+    "priceRange": "₹",
+    "costForTwo": 200,
+    "menuFile": "bholebaba.csv",
+    "priority": 4,
+    "adminStatus": "live"
+  },
+  {
+    "id": "arsalan",
+    "name": "Kolkata Arsalan Biryani",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Biryani",
+    "featured": false,
+    "rating": 4.7,
+    "cuisine": [
+      "Biryani",
+      "Mughlai"
+    ],
+    "priceRange": "₹₹₹",
+    "costForTwo": 200,
+    "menuFile": "arsalan.csv",
+    "priority": 5,
+    "adminStatus": "live"
+  },
+  {
+    "id": "whitechocolate",
+    "name": "White Chocolate The Cake House",
+    "address": "College More, near DNC College, Aurangabad, Suti, West Bengal 742201",
+    "phone": "8695902696",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Desserts",
+    "featured": false,
+    "rating": 4.3,
+    "cuisine": [
+      "Desserts",
+      "Bakery"
+    ],
+    "priceRange": "₹₹",
+    "costForTwo": 200,
+    "menuFile": "whitechocolate.csv",
+    "priority": 6
+  },
+  {
+    "id": "test",
+    "name": "TEST",
+    "address": "HSR LAYOUT",
+    "phone": "9934218764",
+    "whatsapp": "8695902696",
+    "opensAt": "00:00",
+    "closesAt": "23:59",
+    "status": "open",
+    "category": "Cafe",
+    "featured": false,
+    "rating": 4.5,
+    "cuisine": [
+      "North Indian"
+    ],
+    "priceRange": "₹₹",
+    "costForTwo": 300,
+    "menuFile": "test.csv",
+    "adminStatus": "deleted"
+  }
+]

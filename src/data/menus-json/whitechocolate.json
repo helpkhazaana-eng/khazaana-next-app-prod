@@ -1,0 +1,268 @@
+[
+  {
+    "itemName": "Ganache Cake (1 Pound)",
+    "price": 500,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Rich chocolate ganache cake"
+  },
+  {
+    "itemName": "Ganache Cake (1/2 Pound)",
+    "price": 300,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Half pound chocolate ganache cake"
+  },
+  {
+    "itemName": "Ganache Pastry",
+    "price": 60,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Chocolate ganache pastry"
+  },
+  {
+    "itemName": "Red Velvet Cake (1 Pound)",
+    "price": 500,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Classic red velvet cake"
+  },
+  {
+    "itemName": "Red Velvet Cake (1/2 Pound)",
+    "price": 300,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Half pound red velvet cake"
+  },
+  {
+    "itemName": "Red Velvet Pastry",
+    "price": 60,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Red velvet pastry"
+  },
+  {
+    "itemName": "Choco Vancho Cake (1 Pound)",
+    "price": 500,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Chocolate vanilla cake"
+  },
+  {
+    "itemName": "Choco Vancho Pastry",
+    "price": 60,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Chocolate vanilla pastry"
+  },
+  {
+    "itemName": "Saffron Cake (1 Pound)",
+    "price": 500,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Luxurious saffron flavored cake"
+  },
+  {
+    "itemName": "Saffron Pastry",
+    "price": 50,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Saffron flavored pastry"
+  },
+  {
+    "itemName": "Rasmalai Cake (1 Pound)",
+    "price": 500,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Traditional rasmalai inspired cake"
+  },
+  {
+    "itemName": "Rasmalai Pastry",
+    "price": 40,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Rasmalai flavored pastry"
+  },
+  {
+    "itemName": "Choco Truffle Cake (1 Pound)",
+    "price": 400,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Chocolate truffle cake"
+  },
+  {
+    "itemName": "Choco Truffle Pastry",
+    "price": 40,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Chocolate truffle pastry"
+  },
+  {
+    "itemName": "Black Forest Cake (1 Pound)",
+    "price": 400,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Classic black forest cake"
+  },
+  {
+    "itemName": "Black Forest Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Black forest pastry"
+  },
+  {
+    "itemName": "White Forest Cake (1 Pound)",
+    "price": 400,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "White forest cake"
+  },
+  {
+    "itemName": "White Forest Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "White forest pastry"
+  },
+  {
+    "itemName": "Oreo Choco Cake (1 Pound)",
+    "price": 400,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Oreo chocolate cake"
+  },
+  {
+    "itemName": "Oreo Choco Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Oreo chocolate pastry"
+  },
+  {
+    "itemName": "Butterscotch Cake (1 Pound)",
+    "price": 400,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Butterscotch flavored cake"
+  },
+  {
+    "itemName": "Butterscotch Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Butterscotch pastry"
+  },
+  {
+    "itemName": "Kiwi Cake (1 Pound)",
+    "price": 350,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Fresh kiwi flavored cake"
+  },
+  {
+    "itemName": "Kiwi Pastry",
+    "price": 40,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Kiwi flavored pastry"
+  },
+  {
+    "itemName": "Strawberry Cake (1 Pound)",
+    "price": 350,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Fresh strawberry cake"
+  },
+  {
+    "itemName": "Strawberry Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Strawberry flavored pastry"
+  },
+  {
+    "itemName": "Mango Cake (1 Pound)",
+    "price": 350,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Seasonal mango cake"
+  },
+  {
+    "itemName": "Mango Pastry",
+    "price": 30,
+    "category": "Cakes",
+    "vegNonVeg": "Veg",
+    "description": "Mango flavored pastry"
+  },
+  {
+    "itemName": "Veg Patties",
+    "price": 30,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Vegetable patties"
+  },
+  {
+    "itemName": "Paneer Patties",
+    "price": 40,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Cottage cheese patties"
+  },
+  {
+    "itemName": "Special Burger",
+    "price": 50,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Special vegetable burger"
+  },
+  {
+    "itemName": "Hot Dog",
+    "price": 50,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Classic hot dog"
+  },
+  {
+    "itemName": "Doughnut",
+    "price": 40,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Classic glazed doughnut"
+  },
+  {
+    "itemName": "Mix Veg Pizza",
+    "price": 160,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": "Mixed vegetable pizza"
+  },
+  {
+    "itemName": "Corn n Cheese Pizza",
+    "price": 170,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": "Corn and cheese pizza"
+  },
+  {
+    "itemName": "Paneer Pizza",
+    "price": 180,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": "Cottage cheese pizza"
+  },
+  {
+    "itemName": "Mushroom Pizza",
+    "price": 280,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": "Mushroom topped pizza"
+  },
+  {
+    "itemName": "Extra Cheese",
+    "price": 50,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": "Extra cheese topping"
+  }
+]

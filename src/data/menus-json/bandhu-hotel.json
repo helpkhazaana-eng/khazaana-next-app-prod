@@ -1,0 +1,555 @@
+[
+  {
+    "itemName": "Tea",
+    "price": 15,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": "Freshly brewed Indian tea"
+  },
+  {
+    "itemName": "Coffee",
+    "price": 30,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": "Traditional Indian coffee"
+  },
+  {
+    "itemName": "Lassi",
+    "price": 50,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": "Sweet yogurt drink"
+  },
+  {
+    "itemName": "Cold Coffee",
+    "price": 70,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": "Chilled coffee with ice cream"
+  },
+  {
+    "itemName": "Mineral Water",
+    "price": 20,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": "Packaged drinking water"
+  },
+  {
+    "itemName": "Chicken Chowmein",
+    "price": 100,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Stir-fried noodles with chicken"
+  },
+  {
+    "itemName": "Egg Chowmein",
+    "price": 90,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Stir-fried noodles with egg"
+  },
+  {
+    "itemName": "Veg Chowmein",
+    "price": 80,
+    "category": "Easy Bites",
+    "vegNonVeg": "Veg",
+    "description": "Stir-fried noodles with vegetables"
+  },
+  {
+    "itemName": "Veg Pakora",
+    "price": 130,
+    "category": "Easy Bites",
+    "vegNonVeg": "Veg",
+    "description": "Deep-fried vegetable fritters"
+  },
+  {
+    "itemName": "Onion Pakora",
+    "price": 130,
+    "category": "Easy Bites",
+    "vegNonVeg": "Veg",
+    "description": "Deep-fried onion fritters"
+  },
+  {
+    "itemName": "Egg Omelet",
+    "price": 40,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Fluffy egg omelet with spices"
+  },
+  {
+    "itemName": "Egg Bhurji",
+    "price": 40,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Scrambled eggs with spices"
+  },
+  {
+    "itemName": "Egg Roll",
+    "price": 40,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Rolled paratha with egg stuffing"
+  },
+  {
+    "itemName": "Chicken Roll",
+    "price": 100,
+    "category": "Easy Bites",
+    "vegNonVeg": "Non-Veg",
+    "description": "Rolled paratha with chicken stuffing"
+  },
+  {
+    "itemName": "Aloo Paratha",
+    "price": 60,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Stuffed potato paratha"
+  },
+  {
+    "itemName": "Mix Veg Paratha",
+    "price": 130,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Mixed vegetable stuffed paratha"
+  },
+  {
+    "itemName": "Paneer Paratha",
+    "price": 90,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Cottage cheese stuffed paratha"
+  },
+  {
+    "itemName": "Plain Paratha",
+    "price": 20,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Traditional flatbread"
+  },
+  {
+    "itemName": "Mix Soup",
+    "price": 140,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Mixed vegetable soup"
+  },
+  {
+    "itemName": "Chicken Soup",
+    "price": 120,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Non-Veg",
+    "description": "Hearty chicken soup"
+  },
+  {
+    "itemName": "Veg Soup",
+    "price": 100,
+    "category": "Parathas & Soups",
+    "vegNonVeg": "Veg",
+    "description": "Fresh vegetable soup"
+  },
+  {
+    "itemName": "Fish Finger",
+    "price": 220,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Crispy fried fish strips"
+  },
+  {
+    "itemName": "Tandoori Chicken Full",
+    "price": 460,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Full portion tandoori chicken"
+  },
+  {
+    "itemName": "Tandoori Chicken Half",
+    "price": 250,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Half portion tandoori chicken"
+  },
+  {
+    "itemName": "Chicken Tikka",
+    "price": 250,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Grilled chicken tikka pieces"
+  },
+  {
+    "itemName": "Chicken Lollipop",
+    "price": 210,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken lollipop with spices"
+  },
+  {
+    "itemName": "Chicken Stick",
+    "price": 220,
+    "category": "Non-Veg Appetizers",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken skewers grilled to perfection"
+  },
+  {
+    "itemName": "Tawa Roti",
+    "price": 6,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Flatbread cooked on tawa"
+  },
+  {
+    "itemName": "Ghee Tawa Roti",
+    "price": 15,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Flatbread cooked with ghee"
+  },
+  {
+    "itemName": "Tandoori Roti",
+    "price": 15,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Traditional tandoor-baked roti"
+  },
+  {
+    "itemName": "Butter Tandoori Roti",
+    "price": 30,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Tandoori roti with butter"
+  },
+  {
+    "itemName": "Butter Naan",
+    "price": 50,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Soft naan with butter"
+  },
+  {
+    "itemName": "Garlic Naan",
+    "price": 70,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Naan stuffed with garlic"
+  },
+  {
+    "itemName": "Rumali Roti",
+    "price": 40,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Thin handkerchief-like roti"
+  },
+  {
+    "itemName": "Masala Kuleba",
+    "price": 90,
+    "category": "Breads",
+    "vegNonVeg": "Veg",
+    "description": "Spiced stuffed bread"
+  },
+  {
+    "itemName": "Chicken Curry",
+    "price": 160,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Traditional chicken curry"
+  },
+  {
+    "itemName": "Chicken Dopiaza",
+    "price": 200,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken curry with double onions"
+  },
+  {
+    "itemName": "Chicken Kolhapuri",
+    "price": 200,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Spicy Kolhapuri style chicken"
+  },
+  {
+    "itemName": "Chicken Masala",
+    "price": 200,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Aromatic chicken masala"
+  },
+  {
+    "itemName": "Chicken Handi",
+    "price": 220,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken cooked in handi pot"
+  },
+  {
+    "itemName": "Chicken Tikka Masala",
+    "price": 270,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Creamy tikka masala curry"
+  },
+  {
+    "itemName": "Chili Chicken",
+    "price": 170,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Spicy chili chicken preparation"
+  },
+  {
+    "itemName": "Chicken Varta",
+    "price": 170,
+    "category": "Non-Veg Main Course",
+    "vegNonVeg": "Non-Veg",
+    "description": "Punjabi style chicken curry"
+  },
+  {
+    "itemName": "Veg Thali",
+    "price": 60,
+    "category": "Thali",
+    "vegNonVeg": "Veg",
+    "description": "Complete vegetarian meal platter"
+  },
+  {
+    "itemName": "Veg Thali (Basmati)",
+    "price": 110,
+    "category": "Thali",
+    "vegNonVeg": "Veg",
+    "description": "Vegetarian thali with basmati rice"
+  },
+  {
+    "itemName": "Fish Thali",
+    "price": 80,
+    "category": "Thali",
+    "vegNonVeg": "Non-Veg",
+    "description": "Complete fish meal platter"
+  },
+  {
+    "itemName": "Chicken Thali",
+    "price": 150,
+    "category": "Thali",
+    "vegNonVeg": "Non-Veg",
+    "description": "Complete chicken meal platter"
+  },
+  {
+    "itemName": "Egg Thali",
+    "price": 70,
+    "category": "Thali",
+    "vegNonVeg": "Non-Veg",
+    "description": "Complete egg meal platter"
+  },
+  {
+    "itemName": "Mutton Thali",
+    "price": 220,
+    "category": "Thali",
+    "vegNonVeg": "Non-Veg",
+    "description": "Complete mutton meal platter"
+  },
+  {
+    "itemName": "Green Salad",
+    "price": 60,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Fresh green salad"
+  },
+  {
+    "itemName": "Chana Masala",
+    "price": 100,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Spiced chickpea curry"
+  },
+  {
+    "itemName": "Chana Paneer",
+    "price": 180,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Chickpea and cottage cheese curry"
+  },
+  {
+    "itemName": "Paneer Butter Masala",
+    "price": 170,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Creamy paneer butter curry"
+  },
+  {
+    "itemName": "Chili Paneer",
+    "price": 170,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Spicy chili paneer preparation"
+  },
+  {
+    "itemName": "Mix Veg",
+    "price": 100,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Mixed vegetable curry"
+  },
+  {
+    "itemName": "Daal Fry",
+    "price": 100,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Tempered lentil curry"
+  },
+  {
+    "itemName": "Aloo Dum",
+    "price": 100,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Spiced potato curry"
+  },
+  {
+    "itemName": "Kadhai Paneer",
+    "price": 170,
+    "category": "Veg Side Dish",
+    "vegNonVeg": "Veg",
+    "description": "Paneer cooked in kadhai with spices"
+  },
+  {
+    "itemName": "Plain Tadka",
+    "price": 60,
+    "category": "Tadka",
+    "vegNonVeg": "Veg",
+    "description": "Simple tempered dal"
+  },
+  {
+    "itemName": "Egg Butter Tadka",
+    "price": 70,
+    "category": "Tadka",
+    "vegNonVeg": "Non-Veg",
+    "description": "Egg dal with butter tempering"
+  },
+  {
+    "itemName": "Egg Tadka",
+    "price": 65,
+    "category": "Tadka",
+    "vegNonVeg": "Non-Veg",
+    "description": "Egg tempered dal"
+  },
+  {
+    "itemName": "Mutton Butter Tadka",
+    "price": 200,
+    "category": "Tadka",
+    "vegNonVeg": "Non-Veg",
+    "description": "Mutton dal with butter tempering"
+  },
+  {
+    "itemName": "Chicken Butter Tadka",
+    "price": 130,
+    "category": "Tadka",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken dal with butter tempering"
+  },
+  {
+    "itemName": "Chicken Fry",
+    "price": 90,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "Fried chicken pieces"
+  },
+  {
+    "itemName": "Boiled Chana",
+    "price": 80,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": "Boiled chickpeas with spices"
+  },
+  {
+    "itemName": "Rice Chicken",
+    "price": 220,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken served with rice"
+  },
+  {
+    "itemName": "Chicken Kurkure",
+    "price": 220,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "Crispy fried chicken"
+  },
+  {
+    "itemName": "Chicken Tandoori Masala (2 Pc)",
+    "price": 360,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "2 pieces tandoori chicken masala"
+  },
+  {
+    "itemName": "Chicken Tandoori Masala (4 Pc)",
+    "price": 720,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "4 pieces tandoori chicken masala"
+  },
+  {
+    "itemName": "Chicken Butter Masala",
+    "price": 180,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken in butter gravy"
+  },
+  {
+    "itemName": "Chicken Biryani",
+    "price": 100,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Regular chicken biryani"
+  },
+  {
+    "itemName": "Chicken Biryani",
+    "price": 130,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Special chicken biryani"
+  },
+  {
+    "itemName": "Mutton Biryani",
+    "price": 170,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Traditional mutton biryani"
+  },
+  {
+    "itemName": "Chicken Fried Rice",
+    "price": 140,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Chicken fried rice"
+  },
+  {
+    "itemName": "Veg Fried Rice",
+    "price": 120,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": "Vegetable fried rice"
+  },
+  {
+    "itemName": "Mix Fried Rice",
+    "price": 170,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": "Mixed vegetable fried rice"
+  },
+  {
+    "itemName": "Egg Fried Rice",
+    "price": 130,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Egg fried rice"
+  },
+  {
+    "itemName": "Egg Biryani",
+    "price": 90,
+    "category": "Biryani",
+    "vegNonVeg": "Non-Veg",
+    "description": "Egg biryani"
+  },
+  {
+    "itemName": "Veg Biryani",
+    "price": 100,
+    "category": "Biryani",
+    "vegNonVeg": "Veg",
+    "description": "Vegetable biryani"
+  }
+]

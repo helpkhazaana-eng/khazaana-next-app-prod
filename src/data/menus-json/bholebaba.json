@@ -1,0 +1,72 @@
+[
+  {
+    "itemName": "Egg Chow Mein (Half)",
+    "price": 20,
+    "category": "Chow Mein",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Chow Mein (Full)",
+    "price": 40,
+    "category": "Chow Mein",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Roll",
+    "price": 30,
+    "category": "Rolls",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Pakora (Per Piece)",
+    "price": 15,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Pakora Small (8 pcs)",
+    "price": 40,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Lollipop (Per Piece)",
+    "price": 25,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Stick (Per Piece)",
+    "price": 30,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Leg",
+    "price": 40,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Momo (6 pcs)",
+    "price": 25,
+    "category": "Momo",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Momo (6 pcs)",
+    "price": 35,
+    "category": "Momo",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  }
+]

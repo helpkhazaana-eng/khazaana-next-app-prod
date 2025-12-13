@@ -1,0 +1,310 @@
+[
+  {
+    "itemName": "Tea",
+    "price": 10,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Ginger Tea",
+    "price": 15,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Coffee",
+    "price": 10,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cold Coffee",
+    "price": 70,
+    "category": "Beverages",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chocolate Milkshake",
+    "price": 70,
+    "category": "Milkshakes",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Strawberry Milkshake",
+    "price": 70,
+    "category": "Milkshakes",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Black Currant Milkshake",
+    "price": 60,
+    "category": "Milkshakes",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Patties",
+    "price": 60,
+    "category": "Snacks",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Patties",
+    "price": 50,
+    "category": "Snacks",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Burger",
+    "price": 90,
+    "category": "Burgers",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Veg Burger",
+    "price": 70,
+    "category": "Burgers",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mac & Cheese",
+    "price": 60,
+    "category": "Pastas",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Tomato Twist",
+    "price": 50,
+    "category": "Pastas",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Samosa Chaat",
+    "price": 40,
+    "category": "Chaat",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Classic Toast",
+    "price": 15,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Butter Toast",
+    "price": 20,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cheese Toast",
+    "price": 40,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "French Toast",
+    "price": 70,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Milky Toast",
+    "price": 60,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Malai Toast",
+    "price": 50,
+    "category": "Toast",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Egg Toast",
+    "price": 30,
+    "category": "Toast",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chocolate Waffle",
+    "price": 50,
+    "category": "Waffles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Red Velvet Waffle",
+    "price": 70,
+    "category": "Waffles",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Pizza",
+    "price": 150,
+    "category": "Pizzas",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Pizza",
+    "price": 120,
+    "category": "Pizzas",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Donut",
+    "price": 60,
+    "category": "Pastries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chocolate Pastry",
+    "price": 60,
+    "category": "Pastries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Black Forest Pastry",
+    "price": 60,
+    "category": "Pastries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Salted French Fries",
+    "price": 50,
+    "category": "Fries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Peri Peri Fries",
+    "price": 60,
+    "category": "Fries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Mayo Loaded Fries",
+    "price": 75,
+    "category": "Fries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cheesy Potato Shot",
+    "price": 80,
+    "category": "Fries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cheesy Nuggets",
+    "price": 80,
+    "category": "Fries",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Paneer Grill Sandwich",
+    "price": 70,
+    "category": "Grill Sandwiches",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Grill Sandwich",
+    "price": 90,
+    "category": "Grill Sandwiches",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chicken Tandoori Sandwich",
+    "price": 110,
+    "category": "Grill Sandwiches",
+    "vegNonVeg": "Non-Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Classic Maggi (Full)",
+    "price": 30,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Classic Maggi (Half)",
+    "price": 20,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Peri Peri Maggi (Full)",
+    "price": 40,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Peri Peri Maggi (Half)",
+    "price": 30,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cheese Maggi (Full)",
+    "price": 50,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Cheese Maggi (Half)",
+    "price": 40,
+    "category": "Maggi",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Honey Pancake",
+    "price": 60,
+    "category": "Pancakes",
+    "vegNonVeg": "Veg",
+    "description": ""
+  },
+  {
+    "itemName": "Chocolate Pancake",
+    "price": 80,
+    "category": "Pancakes",
+    "vegNonVeg": "Veg",
+    "description": ""
+  }
+]
