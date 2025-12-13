@@ -23,7 +23,12 @@ export default function RestaurantCard({ restaurant }: RestaurantCardProps) {
   const openTime = openHour * 60 + openMin;
   const closeTime = closeHour * 60 + closeMin;
   
-  const isOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  
+  // Apply global override if set
+  let isOpen = isTimeOpen;
+  if (timeData.overrideStatus === 'open') isOpen = true;
+  if (timeData.overrideStatus === 'closed') isOpen = false;
   
   // Format times for display
   const formatTime = (time: string) => {

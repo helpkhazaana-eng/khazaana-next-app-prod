@@ -61,7 +61,7 @@ export default function UserNotificationsPage() {
         <p className="text-slate-500 mb-8 max-w-md">
           Please place an order to register your account and receive updates.
         </p>
-        <Link href="/restaurants" className="btn-primary">
+        <Link href="/restaurants" className="btn-primary bg-orange-500 text-white hover:bg-orange-600 px-6 py-3 rounded-xl font-bold shadow-lg shadow-orange-200 transition-all inline-block">
           Browse Restaurants
         </Link>
       </div>

@@ -5,8 +5,6 @@ import { MapPin, Search, Bell } from 'lucide-react';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
-import GoogleTranslateWidget from './GoogleTranslateWidget';
-
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false });
 
 export default function MobileHeader() {
@@ -37,7 +35,6 @@ export default function MobileHeader() {
             </div>
 
             <div className="flex items-center gap-3">
-              <GoogleTranslateWidget isMobile={true} />
               <Link href="/notifications" className="relative p-2 text-slate-600 hover:bg-slate-50 rounded-full transition-colors" aria-label="View Notifications">
                   <Bell className="w-5 h-5" />
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
