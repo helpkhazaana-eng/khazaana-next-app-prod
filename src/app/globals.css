@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/translate.css";
 
 /* Khazaana Design System - Professional Food Ordering UI */
 :root {
@@ -71,7 +72,8 @@
   --foreground: #0F172A;
 }
 
-@theme inline {
+/* Theme Configuration for Tailwind CSS */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;

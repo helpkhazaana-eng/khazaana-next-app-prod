@@ -2,8 +2,8 @@ import type { Restaurant } from '@/types';
 
 // Centralized timing configuration
 export const RESTAURANT_TIMINGS = {
-  opensAt: '00:00', // Temporarily open for testing
-  closesAt: '23:59', // Temporarily open for testing
+  opensAt: '09:00', // 9 AM IST
+  closesAt: '21:00', // 9 PM IST
   timezone: 'Asia/Kolkata'
 };
 

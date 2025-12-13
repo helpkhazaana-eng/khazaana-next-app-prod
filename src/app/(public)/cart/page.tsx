@@ -248,13 +248,31 @@ export default function CartPage() {
               )}
 
               {/* Checkout Button */}
-              <Link
-                href="/checkout"
-                className="btn-primary w-full flex items-center justify-center gap-2 mb-4 py-4 text-lg shadow-lg shadow-orange-200"
-              >
-                Proceed to Checkout
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+              {isOpen && meetsMinimum ? (
+                <Link
+                  href="/checkout"
+                  className="btn-primary w-full flex items-center justify-center gap-2 mb-4 py-4 text-lg shadow-lg shadow-orange-200"
+                >
+                  Proceed to Checkout
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="w-full flex items-center justify-center gap-2 mb-4 py-4 text-lg bg-slate-200 text-slate-400 rounded-2xl font-bold cursor-not-allowed"
+                  title={!isOpen ? "Restaurant is closed" : "Minimum order not met"}
+                >
+                  {!isOpen ? (
+                    <>
+                      🕒 Closed - {timeData.countdown}
+                    </>
+                  ) : (
+                    <>
+                      Minimum ₹{MINIMUM_ORDER_VALUE} Required
+                    </>
+                  )}
+                </button>
+              )}
 
               <Link href="/restaurants" className="text-slate-500 hover:text-orange-600 font-bold text-sm block text-center transition-colors">
                 Continue Shopping

@@ -91,10 +91,10 @@ const config: NextConfig = {
 
 const withPWAConfig = withPWA({
   dest: "public",
-  disable: process.env.NODE_ENV === "development",
+  disable: false, // Enable in dev for testing
   register: true,
-  scope: "/app",
-  sw: "service-worker.js",
+  scope: "/",
+  sw: "sw.js",
   // @ts-ignore - these options exist in the plugin but types might be outdated
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,

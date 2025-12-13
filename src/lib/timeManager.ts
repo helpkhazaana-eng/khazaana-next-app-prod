@@ -27,7 +27,7 @@ const CONFIG = {
   TIMEZONE: 'Asia/Kolkata',
   IST_OFFSET: 5.5 * 60, // IST is UTC+5:30
   OPENS_AT: parseTimeToHour(RESTAURANT_TIMINGS.opensAt),  // From centralized config
-  CLOSES_AT: parseTimeToHour(RESTAURANT_TIMINGS.closesAt) + 1, // +1 because we check < CLOSES_AT
+  CLOSES_AT: parseTimeToHour(RESTAURANT_TIMINGS.closesAt), // Fixed: removed +1 to close at 9 PM
   UPDATE_INTERVAL: 60000, // 1 minute
   DEBOUNCE_DELAY: 1000, // 1 second
 };

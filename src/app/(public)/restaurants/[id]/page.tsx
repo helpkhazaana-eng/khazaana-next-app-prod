@@ -96,7 +96,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {groupedMenu[category].map((item, index) => (
                   <MenuItemCard 
-                    key={item.itemName} 
+                    key={`${item.itemName}-${item.price}-${index}`} 
                     item={item} 
                     restaurantId={restaurant.id}
                     restaurantName={restaurant.name}

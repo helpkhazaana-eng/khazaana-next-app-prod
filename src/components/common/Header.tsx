@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
 
+import GoogleTranslateWidget from './GoogleTranslateWidget';
+
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false });
 
 export default function Header() {
@@ -68,7 +70,7 @@ export default function Header() {
             {/* Right Side Actions */}
             <div className="flex items-center gap-4 flex-shrink-0">
               {/* Google Translate - Always visible, compact on mobile */}
-              <div id="google_translate_element" className="translate-widget"></div>
+              <GoogleTranslateWidget />
 
               <Link 
                 href="/notifications"
