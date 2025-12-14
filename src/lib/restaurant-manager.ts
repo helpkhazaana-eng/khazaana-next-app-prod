@@ -19,7 +19,8 @@ import {
   setRestaurantOpenStatusFirestore,
   checkPriorityConflictFirestore,
   saveRestaurant,
-  getArchivedRestaurantIds
+  getArchivedRestaurantIds,
+  getAllRestaurantsFromFirestore as getAllRestaurantsFromFirestoreManager
 } from './firestore';
 
 // Get all draft restaurants
@@ -34,16 +35,23 @@ export async function getLiveDynamicRestaurants(): Promise<Restaurant[]> {
 
 // Get ALL live restaurants (static + dynamic), filtering out deleted ones for public view
 export async function getAllRestaurants(includeHidden = false): Promise<Restaurant[]> {
-  const dynamic = await getLiveDynamicRestaurants();
+  // For admin view (includeHidden=true), get ALL restaurants from Firestore
+  // For public view (includeHidden=false), only get live ones
+  const dynamic = includeHidden 
+    ? await getAllRestaurantsFromFirestoreManager() 
+    : await getLiveDynamicRestaurants();
   const dynamicIds = new Set(dynamic.map(r => r.id));
   
-  // Also get archived/deleted restaurant IDs to exclude static restaurants that have been archived
+  // Get archived/deleted restaurant IDs to exclude static restaurants that have been archived
   const archivedIds = await getArchivedRestaurantIds();
   
-  // Static restaurants that haven't been overridden by dynamic ones AND are not archived/deleted
-  const activeStatic = staticRestaurants.filter(r => 
-    !dynamicIds.has(r.id) && !archivedIds.has(r.id)
-  );
+  // Static restaurants that haven't been overridden by dynamic ones
+  // For public view, also exclude archived/deleted static restaurants
+  const activeStatic = staticRestaurants.filter(r => {
+    if (dynamicIds.has(r.id)) return false; // Already in dynamic list
+    if (!includeHidden && archivedIds.has(r.id)) return false; // Archived, hide from public
+    return true;
+  });
   
   // Combine
   const all = [...activeStatic, ...dynamic];
