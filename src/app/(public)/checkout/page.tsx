@@ -17,10 +17,11 @@ export default async function CheckoutPage() {
   ]);
   
   // Create a map of restaurant open status for client-side lookup
-  const restaurantOpenStatus: Record<string, boolean> = {};
+  // Pass the actual isOpen value (true, false, or undefined) for proper handling
+  const restaurantOpenStatus: Record<string, boolean | undefined> = {};
   restaurants.forEach(r => {
-    // Restaurant is open if: isOpen !== false (undefined means auto/open)
-    restaurantOpenStatus[r.id] = r.isOpen !== false;
+    // Pass the actual admin override value - undefined means follow time-based rules
+    restaurantOpenStatus[r.id] = r.isOpen;
   });
 
   return (

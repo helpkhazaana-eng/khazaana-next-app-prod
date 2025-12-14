@@ -8,6 +8,7 @@ import { submitCompleteOrder, type OrderItem, type CustomerInfo, type OrderPrici
 import { generateWhatsAppURLFromOrderData } from '@/lib/whatsapp';
 import { logger } from '@/lib/logger';
 import { useTimeManager } from '@/hooks/useTimeManager';
+import { getRestaurantOpenStatus } from '@/lib/restaurant-status';
 import { useFcmToken } from '@/hooks/useFcmToken';
 import type { Cart, Order } from '@/types';
 import Link from 'next/link';
@@ -55,7 +56,7 @@ function SuccessAnimation() {
 }
 
 interface CheckoutClientProps {
-  restaurantOpenStatus?: Record<string, boolean>;
+  restaurantOpenStatus?: Record<string, boolean | undefined>;
   globalOverride?: 'open' | 'closed' | 'auto';
   systemPhone?: string;
 }
@@ -127,23 +128,21 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
   const subtotal = cart.subtotal || 0;
   const meetsMinimum = subtotal >= MINIMUM_ORDER_VALUE;
   const amountNeeded = Math.max(0, MINIMUM_ORDER_VALUE - subtotal);
-  // Determine if ordering is allowed
-  // 1. Check global override first
-  // 2. Then check per-restaurant status
-  // 3. Finally check time-based status
-  let isOpen = timeData.isOpen;
-  let restaurantClosed = false;
+  // Determine if ordering is allowed using centralized status logic
+  // Priority: Admin per-restaurant override > Global override > Time-based rules
+  const restaurantIsOpen = cart?.restaurantId ? restaurantOpenStatus[cart.restaurantId] : undefined;
+  const statusResult = getRestaurantOpenStatus(restaurantIsOpen, timeData);
   
-  if (globalOverride === 'closed') {
-    isOpen = false;
-  } else if (globalOverride === 'open') {
-    isOpen = true;
-  }
+  let isOpen = statusResult.canOrder;
+  let restaurantClosed = statusResult.reason === 'admin_closed';
   
-  // Check if specific restaurant is closed
-  if (cart?.restaurantId && restaurantOpenStatus[cart.restaurantId] === false) {
-    restaurantClosed = true;
-    isOpen = false;
+  // Apply global override if set (but admin per-restaurant still takes priority)
+  if (restaurantIsOpen === undefined) {
+    if (globalOverride === 'closed') {
+      isOpen = false;
+    } else if (globalOverride === 'open') {
+      isOpen = true;
+    }
   }
 
   const handleGetLocation = () => {
