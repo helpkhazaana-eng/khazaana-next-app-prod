@@ -20,6 +20,23 @@ const config: NextConfig = {
   async headers() {
     return [
       {
+        // Don't cache HTML pages - prevents stale CSS references
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate',
+          }
+        ],
+        has: [
+          {
+            type: 'header',
+            key: 'accept',
+            value: '(.*text/html.*)',
+          },
+        ],
+      },
+      {
         // Cache images for 1 year
         source: '/:all*(svg|jpg|png|webp|avif|ico|gif)',
         locale: false,
@@ -89,19 +106,10 @@ const config: NextConfig = {
 
 const withPWAConfig = withPWA({
   dest: "public",
-  disable: false, // Enable in dev for testing
-  register: true,
+  disable: true, // DISABLED - Service worker was causing CSS loading issues in production
+  register: false,
   scope: "/",
   sw: "sw.js",
-  // @ts-ignore - these options exist in the plugin but types might be outdated
-  cacheOnFrontEndNav: false, // Disabled - was causing CSS loading issues
-  aggressiveFrontEndNavCaching: false, // Disabled - was causing CSS loading issues
-  reloadOnOnline: true,
-  workboxOptions: {
-    disableDevLogs: true,
-    // Don't precache CSS files to avoid stale CSS issues
-    exclude: [/\.css$/],
-  },
 });
 
 export default withSentryConfig(
