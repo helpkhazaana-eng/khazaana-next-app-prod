@@ -15,9 +15,7 @@ const config: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Optimize responsive images
     imageSizes: [16, 32, 48, 64, 96, 128, 256], // Optimize icon sizes
   },
-  experimental: {
-    optimizeCss: true, // Optimize CSS
-  },
+  // Note: optimizeCss removed - it can cause CSS not loading on initial page load
   // Add caching headers for static assets
   async headers() {
     return [
