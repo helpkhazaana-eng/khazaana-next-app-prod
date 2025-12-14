@@ -36,11 +36,17 @@ export async function sendPushNotification(prevState: SendNotificationState, for
         .map(u => u.fcmToken)
         .filter((t): t is string => !!t && t.length > 10);
 
+      console.log('[Notification] Found', tokens.length, 'valid FCM tokens out of', usersData.users.length, 'users');
+
       if (tokens.length > 0) {
         const result = await sendPushNotificationToMany(tokens, title, body, { url: link || '/' });
         successCount = result.successCount;
         failureCount = result.failureCount;
         errors = result.errors;
+      } else {
+        // No tokens found - this is not an error, just no users have registered for push
+        errors.push('No users have registered for push notifications');
+        failureCount = 1;
       }
     } else if (target === 'topic') {
       const result = await sendTopicNotification(targetId || 'all', title, body, { url: link || '/' });
