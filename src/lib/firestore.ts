@@ -330,51 +330,60 @@ export async function setRestaurantOpenStatusFirestore(
   restaurantId: string,
   status: 'open' | 'closed' | 'default'
 ): Promise<Restaurant> {
-  const db = getFirestore();
-  const docRef = db.collection('restaurants').doc(restaurantId);
-  const doc = await docRef.get();
-  
-  // Convert status to isOpen value for storage
-  // 'open' -> true, 'closed' -> false, 'default' -> undefined (delete field)
-  let isOpenValue: boolean | undefined;
-  if (status === 'open') {
-    isOpenValue = true;
-  } else if (status === 'closed') {
-    isOpenValue = false;
-  } else {
-    isOpenValue = undefined; // Will delete the field
-  }
-  
-  if (!doc.exists) {
-    // Restaurant doesn't exist in Firestore - check static restaurants and create it
-    const { restaurants: staticRestaurants } = await import('@/data/restaurants');
-    const staticRestaurant = staticRestaurants.find(r => r.id === restaurantId);
+  try {
+    const db = getFirestore();
+    const docRef = db.collection('restaurants').doc(restaurantId);
+    const doc = await docRef.get();
     
-    if (!staticRestaurant) {
-      throw new Error('Restaurant not found');
+    // Convert status to isOpen value for storage
+    // 'open' -> true, 'closed' -> false, 'default' -> undefined (delete field)
+    let isOpenValue: boolean | undefined;
+    if (status === 'open') {
+      isOpenValue = true;
+    } else if (status === 'closed') {
+      isOpenValue = false;
+    } else {
+      isOpenValue = undefined; // Will delete the field
     }
     
-    // Create the restaurant in Firestore with the status
-    const { id, ...data } = staticRestaurant;
-    const saveData: any = { ...data, adminStatus: 'live' };
-    if (isOpenValue !== undefined) {
-      saveData.isOpen = isOpenValue;
+    if (!doc.exists) {
+      // Restaurant doesn't exist in Firestore - check static restaurants and create it
+      const { restaurants: staticRestaurants } = await import('@/data/restaurants');
+      const staticRestaurant = staticRestaurants.find(r => r.id === restaurantId);
+      
+      if (!staticRestaurant) {
+        throw new Error(`Restaurant not found: ${restaurantId}`);
+      }
+      
+      // Create the restaurant in Firestore with the status
+      const { id, ...data } = staticRestaurant;
+      const saveData: any = { ...data, adminStatus: 'live' };
+      if (isOpenValue !== undefined) {
+        saveData.isOpen = isOpenValue;
+      }
+      await docRef.set(saveData);
+      
+      return { ...staticRestaurant, isOpen: isOpenValue };
     }
-    await docRef.set(saveData);
     
-    return { ...staticRestaurant, isOpen: isOpenValue };
+    // Update existing restaurant - use set with merge to avoid issues with missing fields
+    const updateData: any = {};
+    if (isOpenValue === undefined) {
+      // For 'default', we need to delete the isOpen field
+      // Use set with merge and FieldValue.delete()
+      updateData.isOpen = admin.firestore.FieldValue.delete();
+    } else {
+      updateData.isOpen = isOpenValue;
+    }
+    
+    await docRef.set(updateData, { merge: true });
+    
+    const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
+    return { ...restaurant, isOpen: isOpenValue };
+  } catch (error: any) {
+    console.error('setRestaurantOpenStatusFirestore error:', error);
+    throw new Error(`Failed to update restaurant status: ${error.message}`);
   }
-  
-  // Update existing restaurant
-  if (isOpenValue === undefined) {
-    // Delete the isOpen field to use default time-based behavior
-    await docRef.update({ isOpen: admin.firestore.FieldValue.delete() });
-  } else {
-    await docRef.update({ isOpen: isOpenValue });
-  }
-  
-  const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
-  return { ...restaurant, isOpen: isOpenValue };
 }
 
 // ============================================================
