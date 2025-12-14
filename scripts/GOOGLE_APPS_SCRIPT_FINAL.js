@@ -743,7 +743,7 @@ function generateInvoiceForRow(sheet, rowIndex, rowData) {
         <div class="header">
           <div class="brand">
             <h1>Khazaana</h1>
-            <p>Taste the Luxury</p>
+            <p>Khaana ka Khazaana ab ghar tak</p>
           </div>
           <div class="invoice-title">
             <h2>INVOICE</h2>

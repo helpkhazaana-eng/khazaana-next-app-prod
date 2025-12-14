@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Star, Clock, MapPin, BadgePercent } from 'lucide-react';
+import { Star, Clock, MapPin, BadgePercent, Sparkles } from 'lucide-react';
 import type { Restaurant } from '@/types';
 import { useTimeManager } from '@/hooks/useTimeManager';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -76,10 +76,10 @@ export default function RestaurantCard({ restaurant }: RestaurantCardProps) {
              {/* Desktop Overlay Status (Hidden on Mobile) */}
              <div className="hidden md:block absolute bottom-0 left-0 p-3 w-full bg-gradient-to-t from-black/60 to-transparent">
                 <div className="flex justify-between items-end">
-                    {/* Offer Badge Mockup */}
+                    {/* Taste Badge */}
                     <span className="text-white text-[10px] font-bold bg-orange-600 px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
-                        <BadgePercent className="w-3 h-3" />
-                        50% OFF
+                        <Sparkles className="w-3 h-3" />
+                        Must Try
                     </span>
                     
                     <span className={cn(
