@@ -1,13 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { 
-  User,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  onAuthStateChanged
-} from 'firebase/auth';
-import { getFirebaseAuth } from '@/lib/firebase';
+import type { User } from 'firebase/auth';
 
 interface AdminAuthContextType {
   user: User | null;
@@ -22,23 +16,48 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefin
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Only run on client
-    if (typeof window === 'undefined') return;
-
-    const auth = getFirebaseAuth();
+    setMounted(true);
     
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
+    // Dynamically import Firebase Auth to avoid SSR issues
+    const initAuth = async () => {
+      try {
+        const { getFirebaseAuth } = await import('@/lib/firebase');
+        const { onAuthStateChanged } = await import('firebase/auth');
+        
+        const auth = getFirebaseAuth();
+        
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+          setUser(firebaseUser);
+          setLoading(false);
+        });
+
+        return unsubscribe;
+      } catch (error) {
+        console.error('Firebase Auth init error:', error);
+        setLoading(false);
+        return () => {};
+      }
+    };
+
+    let unsubscribe: (() => void) | undefined;
+    
+    initAuth().then((unsub) => {
+      unsubscribe = unsub;
     });
 
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     try {
+      const { getFirebaseAuth } = await import('@/lib/firebase');
+      const { signInWithEmailAndPassword } = await import('firebase/auth');
+      
       const auth = getFirebaseAuth();
       await signInWithEmailAndPassword(auth, email, password);
       return { success: true };
@@ -75,6 +94,9 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
+      const { getFirebaseAuth } = await import('@/lib/firebase');
+      const { signOut: firebaseSignOut } = await import('firebase/auth');
+      
       const auth = getFirebaseAuth();
       await firebaseSignOut(auth);
     } catch (error) {
