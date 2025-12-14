@@ -5,14 +5,18 @@ import { MoreHorizontal, Edit, Trash2, Archive, PlayCircle, Eye, AlertCircle, Sa
 import { updateRestaurantStatus } from '@/app/actions/update-restaurant-status';
 import { updateRestaurantPriority } from '@/app/actions/update-restaurant-priority';
 import { toggleRestaurantOpenAction } from '@/app/actions/restaurant';
+import { deleteRestaurant } from '@/app/actions/delete-restaurant';
 import type { Restaurant } from '@/types';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Modal from '@/components/ui/Modal';
 
 interface RestaurantListProps {
   restaurants: Restaurant[];
 }
 
 export default function RestaurantList({ restaurants }: RestaurantListProps) {
+  const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [priorityUpdates, setPriorityUpdates] = useState<Record<string, number>>({});
   
@@ -21,6 +25,30 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
   const [statusFilter, setStatusFilter] = useState<'all' | 'live' | 'archived' | 'deleted'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  // Modal State
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error' | 'confirm' | 'info';
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+  }>({ isOpen: false, type: 'info', title: '', message: '' });
+
+  // Delete confirmation state (double confirmation)
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    step: 0 | 1 | 2;
+    restaurantId: string | null;
+    restaurantName: string;
+  }>({ step: 0, restaurantId: null, restaurantName: '' });
+
+  const showModal = (type: 'success' | 'error' | 'confirm' | 'info', title: string, message: string, onConfirm?: () => void) => {
+    setModal({ isOpen: true, type, title, message, onConfirm });
+  };
+
+  const closeModal = () => {
+    setModal(prev => ({ ...prev, isOpen: false }));
+  };
 
   // Filter and Sort Logic
   const filteredRestaurants = useMemo(() => {
@@ -53,20 +81,56 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
   );
 
   const handleStatusChange = async (id: string, status: 'live' | 'archived' | 'deleted') => {
-    if (status === 'deleted' && !confirm('Are you sure you want to delete this restaurant? This action cannot be undone.')) return;
-    
     setLoadingId(id);
     try {
       const res = await updateRestaurantStatus(id, status);
-      if (!res.success) {
-        alert(res.message);
+      if (res.success) {
+        showModal('success', 'Status Updated', res.message || `Restaurant status changed to ${status}`);
+      } else {
+        showModal('error', 'Update Failed', res.message || 'Failed to update status');
       }
     } catch (error) {
       console.error(error);
-      alert('Failed to update status');
+      showModal('error', 'Error', 'Failed to update status');
     } finally {
       setLoadingId(null);
     }
+  };
+
+  // Handle delete with double confirmation
+  const initiateDelete = (id: string, name: string) => {
+    setDeleteConfirm({ step: 1, restaurantId: id, restaurantName: name });
+  };
+
+  const confirmDeleteStep1 = () => {
+    setDeleteConfirm(prev => ({ ...prev, step: 2 }));
+  };
+
+  const confirmDeleteStep2 = async () => {
+    if (!deleteConfirm.restaurantId) return;
+    
+    setLoadingId(deleteConfirm.restaurantId);
+    setDeleteConfirm({ step: 0, restaurantId: null, restaurantName: '' });
+    
+    try {
+      const res = await deleteRestaurant(deleteConfirm.restaurantId);
+      if (res.success) {
+        showModal('success', 'Restaurant Deleted', res.message || 'Restaurant has been permanently deleted');
+        // Redirect to admin dashboard after delete
+        router.push('/admin');
+      } else {
+        showModal('error', 'Delete Failed', res.message || 'Failed to delete restaurant');
+      }
+    } catch (error) {
+      console.error(error);
+      showModal('error', 'Error', 'Failed to delete restaurant');
+    } finally {
+      setLoadingId(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirm({ step: 0, restaurantId: null, restaurantName: '' });
   };
 
   const handlePriorityChange = (id: string, value: string) => {
@@ -89,40 +153,41 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
           delete next[id];
           return next;
         });
-        alert(res.message);
+        showModal('success', 'Priority Updated', res.message || 'Priority saved successfully');
       } else {
-        alert(res.message);
+        showModal('error', 'Update Failed', res.message || 'Failed to update priority');
       }
     } catch (error) {
       console.error(error);
-      alert('Failed to update priority');
+      showModal('error', 'Error', 'Failed to update priority');
     } finally {
       setLoadingId(null);
     }
   };
 
   const removePriority = async (id: string) => {
-    if (!confirm('Remove priority from this restaurant?')) return;
-    
-    setLoadingId(id);
-    try {
-      const res = await updateRestaurantPriority(id, null);
-      if (res.success) {
-        setPriorityUpdates(prev => {
-          const next = { ...prev };
-          delete next[id];
-          return next;
-        });
-        alert(res.message);
-      } else {
-        alert(res.message);
+    showModal('confirm', 'Remove Priority', 'Remove priority from this restaurant?', async () => {
+      closeModal();
+      setLoadingId(id);
+      try {
+        const res = await updateRestaurantPriority(id, null);
+        if (res.success) {
+          setPriorityUpdates(prev => {
+            const next = { ...prev };
+            delete next[id];
+            return next;
+          });
+          showModal('success', 'Priority Removed', res.message || 'Priority removed successfully');
+        } else {
+          showModal('error', 'Update Failed', res.message || 'Failed to remove priority');
+        }
+      } catch (error) {
+        console.error(error);
+        showModal('error', 'Error', 'Failed to remove priority');
+      } finally {
+        setLoadingId(null);
       }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to remove priority');
-    } finally {
-      setLoadingId(null);
-    }
+    });
   };
 
   return (
@@ -231,9 +296,13 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
                         setLoadingId(id);
                         try {
                           const res = await toggleRestaurantOpenAction(id, open);
-                          if (!res.success) alert(res.message);
+                          if (res.success) {
+                            showModal('success', 'Status Updated', res.message || `Restaurant is now ${open ? 'OPEN' : 'CLOSED'}`);
+                          } else {
+                            showModal('error', 'Update Failed', res.message || 'Failed to toggle status');
+                          }
                         } catch (e) {
-                          alert('Failed to toggle status');
+                          showModal('error', 'Error', 'Failed to toggle status');
                         } finally {
                           setLoadingId(null);
                         }
@@ -287,7 +356,7 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
 
                       {restaurant.adminStatus !== 'deleted' && (
                           <button
-                              onClick={() => handleStatusChange(restaurant.id, 'deleted')}
+                              onClick={() => initiateDelete(restaurant.id, restaurant.name)}
                               disabled={loadingId === restaurant.id}
                               className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-200"
                           >
@@ -334,6 +403,51 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
           </div>
         )}
       </div>
+
+      {/* Modal for alerts */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        title={modal.title}
+        variant={modal.type}
+        onConfirm={modal.onConfirm}
+      >
+        <p>{modal.message}</p>
+      </Modal>
+
+      {/* Delete Confirmation Step 1 */}
+      <Modal
+        isOpen={deleteConfirm.step === 1}
+        onClose={cancelDelete}
+        title="Delete Restaurant?"
+        variant="confirm"
+        onConfirm={confirmDeleteStep1}
+        confirmText="Yes, Continue"
+      >
+        <p className="text-slate-600">
+          Are you sure you want to delete <strong>{deleteConfirm.restaurantName}</strong>?
+        </p>
+        <p className="text-sm text-red-600 mt-2">
+          This will permanently remove the restaurant and all its menu data.
+        </p>
+      </Modal>
+
+      {/* Delete Confirmation Step 2 - Final */}
+      <Modal
+        isOpen={deleteConfirm.step === 2}
+        onClose={cancelDelete}
+        title="⚠️ Final Confirmation"
+        variant="error"
+        onConfirm={confirmDeleteStep2}
+        confirmText="DELETE PERMANENTLY"
+      >
+        <p className="text-slate-600">
+          This is your <strong>FINAL WARNING</strong>. Deleting <strong>{deleteConfirm.restaurantName}</strong> cannot be undone.
+        </p>
+        <p className="text-sm text-red-600 mt-2 font-bold">
+          All restaurant data and menus will be permanently lost.
+        </p>
+      </Modal>
     </div>
   );
 }

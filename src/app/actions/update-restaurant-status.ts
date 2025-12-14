@@ -1,7 +1,7 @@
 'use server';
 
 import { updateRestaurantStatus as updateStatusLib } from '@/lib/restaurant-manager';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
 
 export async function updateRestaurantStatus(restaurantId: string, status: 'live' | 'archived' | 'deleted') {
@@ -9,11 +9,16 @@ export async function updateRestaurantStatus(restaurantId: string, status: 'live
     await requireAdmin();
     await updateStatusLib(restaurantId, status);
     
-    // Revalidate paths
+    // Revalidate all paths that show restaurants
     revalidatePath('/admin');
     revalidatePath('/admin/restaurants');
     revalidatePath('/');
     revalidatePath('/restaurants');
+    revalidatePath(`/restaurants/${restaurantId}`);
+    
+    // Force revalidation of the specific restaurant page
+    revalidatePath('/(public)/restaurants', 'page');
+    revalidatePath('/(public)', 'page');
     
     return { success: true, message: `Restaurant ${status === 'deleted' ? 'deleted' : status === 'archived' ? 'archived' : 'activated'} successfully.` };
   } catch (error: any) {
