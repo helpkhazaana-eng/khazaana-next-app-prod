@@ -75,8 +75,9 @@ export async function createRestaurant(formData: FormData) {
       restaurantId: id
     };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create restaurant error:', error);
-    return { success: false, message: 'Server error creating restaurant' };
+    const errorMessage = error?.message || 'Unknown error';
+    return { success: false, message: `Server error: ${errorMessage}` };
   }
 }

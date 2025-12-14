@@ -1,6 +1,7 @@
 'use server';
 
 import { updateOrderStatus, getOrderFromFirestore, type OrderStatus } from '@/lib/firestore';
+import { updateOrderStatusInSheets } from '@/lib/googleSheets';
 import { sendPushNotification } from '@/lib/firebase-admin';
 import { revalidatePath } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
@@ -23,11 +24,22 @@ export async function updateOrderStatusAction(orderId: string, status: OrderStat
       return { success: false, message: 'Order not found' };
     }
     
-    // Update status in Firestore
-    const updated = await updateOrderStatus(orderId, status);
+    // Update status in both Firestore and Google Sheets
+    const [firestoreResult, sheetsResult] = await Promise.all([
+      updateOrderStatus(orderId, status),
+      updateOrderStatusInSheets(orderId, status)
+    ]);
     
-    if (!updated) {
+    if (!firestoreResult && !sheetsResult.success) {
       return { success: false, message: 'Failed to update order status' };
+    }
+    
+    // Log if either failed but continue
+    if (!firestoreResult) {
+      console.warn('[OrderStatus] Firestore update failed for order:', orderId);
+    }
+    if (!sheetsResult.success) {
+      console.warn('[OrderStatus] Google Sheets update failed for order:', orderId, sheetsResult.error);
     }
     
     // Send push notification if FCM token exists

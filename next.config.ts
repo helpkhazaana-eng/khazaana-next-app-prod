@@ -94,11 +94,13 @@ const withPWAConfig = withPWA({
   scope: "/",
   sw: "sw.js",
   // @ts-ignore - these options exist in the plugin but types might be outdated
-  cacheOnFrontEndNav: true,
-  aggressiveFrontEndNavCaching: true,
+  cacheOnFrontEndNav: false, // Disabled - was causing CSS loading issues
+  aggressiveFrontEndNavCaching: false, // Disabled - was causing CSS loading issues
   reloadOnOnline: true,
   workboxOptions: {
     disableDevLogs: true,
+    // Don't precache CSS files to avoid stale CSS issues
+    exclude: [/\.css$/],
   },
 });
 

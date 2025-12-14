@@ -70,8 +70,9 @@ export async function uploadMenuCSV(formData: FormData) {
       count: validItems.length 
     };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Upload error:', error);
-    return { success: false, message: 'Server error processing file' };
+    const errorMessage = error?.message || 'Unknown error';
+    return { success: false, message: `Server error: ${errorMessage}` };
   }
 }

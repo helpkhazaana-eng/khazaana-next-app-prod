@@ -16,8 +16,9 @@ export async function publishRestaurant(restaurantId: string) {
     revalidatePath('/admin');
     
     return { success: true, message: 'Restaurant activated successfully!' };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Publish restaurant error:', error);
-    return { success: false, message: 'Failed to activate restaurant.' };
+    const errorMessage = error?.message || 'Unknown error';
+    return { success: false, message: `Failed to activate: ${errorMessage}` };
   }
 }

@@ -135,6 +135,32 @@ export async function getAdminUsers(): Promise<UsersResponse> {
 }
 
 /**
+ * Update Order Status in Google Sheets
+ * Server-side only
+ */
+export async function updateOrderStatusInSheets(orderId: string, status: string): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await fetchWithTimeout(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        action: 'updateOrderStatus',
+        orderId,
+        status
+      }),
+      cache: 'no-store',
+      redirect: 'follow'
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    logger.error('Failed to update order status in sheets', error as Error, 'GOOGLE_SHEETS');
+    return { success: false, error: 'Network error' };
+  }
+}
+
+/**
  * Trigger Invoice Generation
  * Server-side only
  */

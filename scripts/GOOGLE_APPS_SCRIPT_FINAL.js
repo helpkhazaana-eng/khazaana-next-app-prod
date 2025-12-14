@@ -36,6 +36,7 @@ function doPost(e) {
       case 'getUsers':         return handleGetUsers(ss);
       case 'addOrder':         return handleAddOrder(ss, body);
       case 'addOrUpdateUser':  return handleAddUser(ss, body);
+      case 'updateOrderStatus': return handleUpdateOrderStatus(ss, body);
       
       // Advanced Features
       case 'getAnalytics':     return handleGetAnalytics(ss);
@@ -218,6 +219,38 @@ function handleAddOrder(ss, body) {
   
   sheet.appendRow(row);
   return createJSONOutput({ success: true, orderId: data.Order_ID });
+}
+
+/**
+ * Update Order Status
+ * Updates the status column (index 16, column Q) for a given order
+ */
+function handleUpdateOrderStatus(ss, body) {
+  const sheet = ss.getSheetByName('Orders');
+  if (!sheet) return createJSONOutput({ success: false, error: 'Orders sheet missing' });
+  
+  const orderId = body.orderId;
+  const newStatus = body.status;
+  
+  if (!orderId || !newStatus) {
+    return createJSONOutput({ success: false, error: 'Missing orderId or status' });
+  }
+  
+  const data = sheet.getDataRange().getValues();
+  
+  // Find the row with matching order ID (column A, index 0)
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] === orderId) {
+      // Update status column (Q = column 17, index 16)
+      sheet.getRange(i + 1, 17).setValue(newStatus);
+      // Update Updated_At column (X = column 24, index 23)
+      sheet.getRange(i + 1, 24).setValue(new Date().toISOString());
+      
+      return createJSONOutput({ success: true, message: 'Status updated', orderId, status: newStatus });
+    }
+  }
+  
+  return createJSONOutput({ success: false, error: 'Order not found' });
 }
 
 // Fallback for older code

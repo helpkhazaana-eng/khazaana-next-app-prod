@@ -20,8 +20,9 @@ export async function toggleRestaurantOpenAction(restaurantId: string, isOpen: b
       message: `${restaurant.name} is now ${isOpen ? 'OPEN' : 'CLOSED'}`,
       restaurant 
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to toggle restaurant status:', error);
-    return { success: false, message: 'Failed to update restaurant status' };
+    const errorMessage = error?.message || 'Unknown error';
+    return { success: false, message: `Failed to update: ${errorMessage}` };
   }
 }
