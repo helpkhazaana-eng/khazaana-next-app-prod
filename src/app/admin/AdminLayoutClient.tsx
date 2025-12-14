@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, Upload, FileText, LogOut, Store, ChefHat, BarChart, StickyNote, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Upload, FileText, LogOut, Store, ChefHat, BarChart, StickyNote, Loader2, HelpCircle } from 'lucide-react';
 import { AdminAuthProvider, useAdminAuth } from '@/contexts/AdminAuthContext';
 
 function AdminLayoutInner({
@@ -172,6 +172,15 @@ function AdminLayoutInner({
           >
             <StickyNote className="w-5 h-5 text-slate-400 group-hover:text-amber-400 transition-colors" />
             <span className="font-medium">Notes</span>
+          </Link>
+
+          <p className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3 mt-6">Support</p>
+          <Link 
+            href="/admin/help" 
+            className="flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/10 transition-all text-slate-300 hover:text-white duration-200 group"
+          >
+            <HelpCircle className="w-5 h-5 text-slate-400 group-hover:text-cyan-400 transition-colors" />
+            <span className="font-medium">How to?</span>
           </Link>
         </nav>
         
