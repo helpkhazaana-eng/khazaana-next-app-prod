@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Search, Filter, ChevronLeft, ChevronRight, FileText, CheckCircle2, Clock, AlertCircle, RefreshCw, Wand2 } from 'lucide-react';
+import { Search, Filter, ChevronLeft, ChevronRight, FileText, CheckCircle2, Clock, AlertCircle, RefreshCw, Wand2, ChevronDown } from 'lucide-react';
 import type { AdminOrder } from '@/lib/googleSheets';
 import { useRouter } from 'next/navigation';
 import { generateReceipt } from '@/app/actions/orders';
+import { updateOrderStatusAction } from '@/app/actions/update-order-status';
+import type { OrderStatus } from '@/lib/firestore';
 
 interface OrdersListProps {
   orders: AdminOrder[];
@@ -26,6 +28,19 @@ export default function OrdersList({ orders, pagination, searchParams }: OrdersL
   const [generatingId, setGeneratingId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(searchParams.search || '');
   const [statusFilter, setStatusFilter] = useState(searchParams.status || 'all');
+
+  const handleStatusChange = async (orderId: string, newStatus: OrderStatus) => {
+    try {
+      const result = await updateOrderStatusAction(orderId, newStatus);
+      if (result.success) {
+        router.refresh();
+      } else {
+        alert('Failed to update status: ' + result.message);
+      }
+    } catch (error) {
+      alert('An error occurred while updating status');
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,7 +166,7 @@ export default function OrdersList({ orders, pagination, searchParams }: OrdersL
                     ₹{order.totalPrice}
                   </td>
                   <td className="px-6 py-4">
-                    <OrderStatusBadge status={order.status} />
+                    <OrderStatusBadge status={order.status} orderId={order.orderId} onStatusChange={handleStatusChange} />
                   </td>
                   <td className="px-6 py-4 text-slate-500 text-xs">
                     {new Date(order.orderTime).toLocaleDateString()}
@@ -229,34 +244,67 @@ export default function OrdersList({ orders, pagination, searchParams }: OrdersL
   );
 }
 
-function OrderStatusBadge({ status }: { status: string }) {
+function OrderStatusBadge({ status, orderId, onStatusChange }: { status: string; orderId: string; onStatusChange: (orderId: string, newStatus: OrderStatus) => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const s = status.toLowerCase();
   
-  if (s === 'delivered') {
-    return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 border border-green-200">
-        <CheckCircle2 className="w-3 h-3" /> Delivered
-      </span>
-    );
-  }
-  if (s === 'confirmed' || s === 'preparing') {
-    return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 border border-blue-200">
-        <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span> {status}
-      </span>
-    );
-  }
-  if (s === 'cancelled') {
-    return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 border border-red-200">
-        <AlertCircle className="w-3 h-3" /> Cancelled
-      </span>
-    );
-  }
-  // Pending or others
+  const statusOptions: { value: OrderStatus; label: string; color: string; icon: React.ReactNode }[] = [
+    { value: 'pending', label: 'Pending', color: 'bg-yellow-100 text-yellow-700 border-yellow-200', icon: <Clock className="w-3 h-3" /> },
+    { value: 'confirmed', label: 'Confirmed', color: 'bg-blue-100 text-blue-700 border-blue-200', icon: <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span> },
+    { value: 'delivered', label: 'Delivered', color: 'bg-green-100 text-green-700 border-green-200', icon: <CheckCircle2 className="w-3 h-3" /> },
+    { value: 'cancelled', label: 'Cancelled', color: 'bg-red-100 text-red-700 border-red-200', icon: <AlertCircle className="w-3 h-3" /> },
+  ];
+
+  const currentStatus = statusOptions.find(opt => opt.value === s) || statusOptions[0];
+
+  const handleStatusChange = async (newStatus: OrderStatus) => {
+    if (newStatus === s) {
+      setIsOpen(false);
+      return;
+    }
+    setUpdating(true);
+    setIsOpen(false);
+    await onStatusChange(orderId, newStatus);
+    setUpdating(false);
+  };
+
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700 border border-yellow-200">
-      <Clock className="w-3 h-3" /> {status}
-    </span>
+    <div className="relative">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        disabled={updating}
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border cursor-pointer hover:opacity-80 transition-opacity ${currentStatus.color} ${updating ? 'opacity-50' : ''}`}
+      >
+        {updating ? (
+          <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        ) : (
+          currentStatus.icon
+        )}
+        {currentStatus.label}
+        <ChevronDown className="w-3 h-3 ml-0.5" />
+      </button>
+
+      {isOpen && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
+          <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-20 min-w-[140px]">
+            {statusOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleStatusChange(option.value)}
+                className={`w-full px-3 py-2 text-left text-xs font-medium flex items-center gap-2 hover:bg-slate-50 transition-colors ${option.value === s ? 'bg-slate-50' : ''}`}
+              >
+                <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border ${option.color}`}>
+                  {option.icon}
+                  {option.label}
+                </span>
+                {option.value === s && <CheckCircle2 className="w-3 h-3 text-green-500 ml-auto" />}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   );
 }

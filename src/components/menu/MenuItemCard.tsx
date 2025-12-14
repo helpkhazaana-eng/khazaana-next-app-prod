@@ -15,6 +15,7 @@ interface MenuItemProps {
   restaurantName: string;
   opensAt?: string;
   closesAt?: string;
+  restaurantIsOpen?: boolean;
   index?: number;
 }
 
@@ -24,6 +25,7 @@ export default function MenuItemCard({
   restaurantName, 
   opensAt = '09:00',
   closesAt = '21:00',
+  restaurantIsOpen = true,
   index = 0
 }: MenuItemProps) {
   const [quantity, setQuantity] = useState(0);
@@ -43,7 +45,10 @@ export default function MenuItemCard({
   const openTime = openHour * 60 + openMin;
   const closeTime = closeHour * 60 + closeMin;
   
-  const isOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  
+  // Restaurant is open only if: admin hasn't closed it AND within operating hours
+  const isOpen = restaurantIsOpen && isTimeOpen;
 
   // Sync quantity with cart from localStorage on mount and updates
   useEffect(() => {

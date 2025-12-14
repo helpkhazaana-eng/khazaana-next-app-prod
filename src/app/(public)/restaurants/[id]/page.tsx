@@ -7,6 +7,7 @@ import RestaurantHero from '@/components/restaurant/RestaurantHero';
 import CategoryNav from '@/components/menu/CategoryNav';
 import CategoryHeader from '@/components/menu/CategoryHeader';
 import LanguagePrompt from '@/components/common/LanguagePrompt';
+import RestaurantClosedBanner from '@/components/restaurant/RestaurantClosedBanner';
 import { generateRestaurantSchema } from '@/lib/seo';
 
 interface Props {
@@ -52,6 +53,9 @@ export default async function RestaurantDetailPage({ params }: Props) {
   // Generate Structured Data
   const jsonLd = generateRestaurantSchema(restaurant);
 
+  // Check if restaurant is manually closed by admin
+  const isRestaurantClosed = restaurant.isOpen === false;
+
   return (
     <div className="min-h-screen bg-white pb-24 relative">
       <script
@@ -59,6 +63,11 @@ export default async function RestaurantDetailPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <RestaurantHero restaurant={restaurant} />
+      
+      {/* Show closed banner if restaurant is manually closed */}
+      {isRestaurantClosed && (
+        <RestaurantClosedBanner restaurantName={restaurant.name} />
+      )}
       
       {/* Language prompt for Bengali */}
       <LanguagePrompt />
@@ -84,6 +93,7 @@ export default async function RestaurantDetailPage({ params }: Props) {
                     restaurantName={restaurant.name}
                     opensAt={restaurant.opensAt}
                     closesAt={restaurant.closesAt}
+                    restaurantIsOpen={restaurant.isOpen !== false}
                     index={index} // Pass index for staggered animation
                   />
                 ))}

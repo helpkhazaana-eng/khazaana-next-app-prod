@@ -41,10 +41,16 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
   
   const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
   
-  // Apply global override if set
-  let isOpen = isTimeOpen;
+  // Check admin-controlled isOpen field (defaults to true if not set)
+  const adminIsOpen = restaurant.isOpen !== false;
+  
+  // Apply global override if set, otherwise check both admin and time
+  let isOpen = adminIsOpen && isTimeOpen;
   if (timeData.overrideStatus === 'open') isOpen = true;
   if (timeData.overrideStatus === 'closed') isOpen = false;
+  
+  // If admin manually closed, always show closed regardless of override
+  if (!adminIsOpen) isOpen = false;
   
   return (
     <div className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden">

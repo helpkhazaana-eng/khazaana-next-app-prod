@@ -207,13 +207,28 @@ export async function updateRestaurantStatusFirestore(
   status: 'live' | 'archived' | 'deleted'
 ): Promise<Restaurant> {
   const db = getFirestore();
-  const doc = await db.collection('restaurants').doc(restaurantId).get();
+  const docRef = db.collection('restaurants').doc(restaurantId);
+  const doc = await docRef.get();
+  
+  let restaurant: Restaurant;
   
   if (!doc.exists) {
-    throw new Error('Restaurant not found');
+    // Check static restaurants and create in Firestore
+    const { restaurants: staticRestaurants } = await import('@/data/restaurants');
+    const staticRestaurant = staticRestaurants.find(r => r.id === restaurantId);
+    
+    if (!staticRestaurant) {
+      throw new Error('Restaurant not found');
+    }
+    
+    // Create the restaurant in Firestore
+    const { id, ...data } = staticRestaurant;
+    await docRef.set({ ...data, adminStatus: status });
+    
+    return { ...staticRestaurant, adminStatus: status };
   }
   
-  const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
+  restaurant = { id: doc.id, ...doc.data() } as Restaurant;
   
   // If activating, check priority conflict
   if (status === 'live' && restaurant.priority) {
@@ -223,7 +238,7 @@ export async function updateRestaurantStatusFirestore(
     }
   }
   
-  await db.collection('restaurants').doc(restaurantId).update({ adminStatus: status });
+  await docRef.update({ adminStatus: status });
   
   return { ...restaurant, adminStatus: status };
 }
@@ -252,13 +267,35 @@ export async function updateRestaurantPriorityFirestore(
   priority: number | null
 ): Promise<Restaurant> {
   const db = getFirestore();
-  const doc = await db.collection('restaurants').doc(restaurantId).get();
+  const docRef = db.collection('restaurants').doc(restaurantId);
+  const doc = await docRef.get();
+  
+  let restaurant: Restaurant;
   
   if (!doc.exists) {
-    throw new Error('Restaurant not found');
+    // Check static restaurants and create in Firestore
+    const { restaurants: staticRestaurants } = await import('@/data/restaurants');
+    const staticRestaurant = staticRestaurants.find(r => r.id === restaurantId);
+    
+    if (!staticRestaurant) {
+      throw new Error('Restaurant not found');
+    }
+    
+    if (priority !== null) {
+      const conflict = await checkPriorityConflictFirestore(priority, restaurantId);
+      if (conflict) {
+        throw new Error(`Priority ${priority} is already taken by "${conflict.name}". Remove it there first.`);
+      }
+    }
+    
+    // Create the restaurant in Firestore with priority
+    const { id, ...data } = staticRestaurant;
+    await docRef.set({ ...data, priority: priority ?? undefined, adminStatus: 'live' });
+    
+    return { ...staticRestaurant, priority: priority ?? undefined };
   }
   
-  const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
+  restaurant = { id: doc.id, ...doc.data() } as Restaurant;
   
   if (priority !== null) {
     const conflict = await checkPriorityConflictFirestore(priority, restaurantId);
@@ -271,7 +308,7 @@ export async function updateRestaurantPriorityFirestore(
     ? { priority: admin.firestore.FieldValue.delete() }
     : { priority };
   
-  await db.collection('restaurants').doc(restaurantId).update(updateData);
+  await docRef.update(updateData);
   
   return { ...restaurant, priority: priority === null ? undefined : priority };
 }
@@ -282,13 +319,26 @@ export async function toggleRestaurantOpenFirestore(
   isOpen: boolean
 ): Promise<Restaurant> {
   const db = getFirestore();
-  const doc = await db.collection('restaurants').doc(restaurantId).get();
+  const docRef = db.collection('restaurants').doc(restaurantId);
+  const doc = await docRef.get();
   
   if (!doc.exists) {
-    throw new Error('Restaurant not found');
+    // Restaurant doesn't exist in Firestore - check static restaurants and create it
+    const { restaurants: staticRestaurants } = await import('@/data/restaurants');
+    const staticRestaurant = staticRestaurants.find(r => r.id === restaurantId);
+    
+    if (!staticRestaurant) {
+      throw new Error('Restaurant not found');
+    }
+    
+    // Create the restaurant in Firestore with the isOpen status
+    const { id, ...data } = staticRestaurant;
+    await docRef.set({ ...data, isOpen, adminStatus: 'live' });
+    
+    return { ...staticRestaurant, isOpen };
   }
   
-  await db.collection('restaurants').doc(restaurantId).update({ isOpen });
+  await docRef.update({ isOpen });
   
   const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
   return { ...restaurant, isOpen };
