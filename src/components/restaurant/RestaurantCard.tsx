@@ -29,21 +29,30 @@ export default function RestaurantCard({ restaurant }: RestaurantCardProps) {
   const forTwoText = language === 'bn' ? 'দুজনের জন্য' : 'for two';
   const freeDeliveryText = language === 'bn' ? '₹১৯৯ এর উপরে অর্ডারে ফ্রি ডেলিভারি' : 'Free delivery on orders above ₹199';
   
-  // Calculate open status based on timeManager (client-side)
+  // Calculate time-based open status
   const currentMinutes = timeData.istHour * 60 + timeData.istMinute;
-  
   const [openHour, openMin] = restaurant.opensAt.split(':').map(Number);
   const [closeHour, closeMin] = restaurant.closesAt.split(':').map(Number);
-  
   const openTime = openHour * 60 + openMin;
   const closeTime = closeHour * 60 + closeMin;
-  
   const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
   
-  // Apply global override if set
-  let isOpen = isTimeOpen;
-  if (timeData.overrideStatus === 'open') isOpen = true;
-  if (timeData.overrideStatus === 'closed') isOpen = false;
+  // Determine final open status:
+  // Admin's per-restaurant isOpen field OVERRIDES time restrictions
+  let isOpen: boolean;
+  
+  if (restaurant.isOpen === false) {
+    // Admin explicitly closed this restaurant
+    isOpen = false;
+  } else if (restaurant.isOpen === true) {
+    // Admin explicitly opened this restaurant - OVERRIDE time restrictions
+    isOpen = true;
+  } else {
+    // No admin override, use time-based + global override
+    isOpen = isTimeOpen;
+    if (timeData.overrideStatus === 'open') isOpen = true;
+    if (timeData.overrideStatus === 'closed') isOpen = false;
+  }
   
   // Format times for display
   const formatTime = (time: string) => {

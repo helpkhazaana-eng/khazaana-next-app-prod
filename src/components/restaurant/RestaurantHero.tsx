@@ -30,27 +30,38 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
   const acceptingOrdersText = language === 'bn' ? 'অর্ডার নেওয়া হচ্ছে' : 'Accepting orders';
   const opensTomorrowText = language === 'bn' ? 'আগামীকাল সকাল ৯টায় খুলবে' : 'Opens tomorrow at 9 AM';
   
-  // Calculate open status based on timeManager (client-side)
-  const currentMinutes = timeData.istHour * 60 + timeData.istMinute;
-  
-  const [openHour, openMin] = restaurant.opensAt.split(':').map(Number);
-  const [closeHour, closeMin] = restaurant.closesAt.split(':').map(Number);
-  
-  const openTime = openHour * 60 + openMin;
-  const closeTime = closeHour * 60 + closeMin;
-  
-  const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
-  
   // Check admin-controlled isOpen field (defaults to true if not set)
+  // This is the per-restaurant override set by admin
   const adminIsOpen = restaurant.isOpen !== false;
   
-  // Apply global override if set, otherwise check both admin and time
-  let isOpen = adminIsOpen && isTimeOpen;
-  if (timeData.overrideStatus === 'open') isOpen = true;
-  if (timeData.overrideStatus === 'closed') isOpen = false;
+  // Calculate time-based open status
+  const currentMinutes = timeData.istHour * 60 + timeData.istMinute;
+  const [openHour, openMin] = restaurant.opensAt.split(':').map(Number);
+  const [closeHour, closeMin] = restaurant.closesAt.split(':').map(Number);
+  const openTime = openHour * 60 + openMin;
+  const closeTime = closeHour * 60 + closeMin;
+  const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
   
-  // If admin manually closed, always show closed regardless of override
-  if (!adminIsOpen) isOpen = false;
+  // Determine final open status:
+  // 1. If admin explicitly set isOpen=false, restaurant is CLOSED (admin override)
+  // 2. If admin explicitly set isOpen=true, restaurant is OPEN regardless of time (admin override)
+  // 3. If isOpen is undefined/not set, follow time-based rules
+  // 4. Global override (from system config) takes precedence over time but not admin per-restaurant setting
+  
+  let isOpen: boolean;
+  
+  if (restaurant.isOpen === false) {
+    // Admin explicitly closed this restaurant
+    isOpen = false;
+  } else if (restaurant.isOpen === true) {
+    // Admin explicitly opened this restaurant - OVERRIDE time restrictions
+    isOpen = true;
+  } else {
+    // No admin override, use time-based + global override
+    isOpen = isTimeOpen;
+    if (timeData.overrideStatus === 'open') isOpen = true;
+    if (timeData.overrideStatus === 'closed') isOpen = false;
+  }
   
   return (
     <div className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden">
