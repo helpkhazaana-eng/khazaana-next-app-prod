@@ -105,7 +105,7 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
           <div>
             <h3 className="font-semibold text-orange-800 mb-1">Your cart is empty</h3>
             <p className="text-orange-700 mb-4 text-sm">Please add items to your cart before checking out.</p>
-            <Link href="/restaurants" className="btn-primary inline-flex items-center text-sm px-4 py-2">
+            <Link href="/restaurants" className="inline-flex items-center text-sm px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-all duration-200">
               Browse Restaurants
             </Link>
           </div>

@@ -14,14 +14,19 @@ function SignInPageInner() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [redirecting, setRedirecting] = useState(false);
   const router = useRouter();
 
   // Redirect if already authenticated
   useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      router.push('/admin');
+    console.log('[SignIn] Auth state check:', { authLoading, isAuthenticated, redirecting });
+    if (!authLoading && isAuthenticated && !redirecting) {
+      console.log('[SignIn] Already authenticated, redirecting to /admin');
+      setRedirecting(true);
+      // Use window.location for hard redirect - router.push doesn't work reliably
+      window.location.href = '/admin';
     }
-  }, [isAuthenticated, authLoading, router]);
+  }, [isAuthenticated, authLoading, redirecting]);
 
   // Handle the sign-in process
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,12 +43,14 @@ function SignInPageInner() {
     const result = await signIn(email, password);
     
     if (result.success) {
-      router.push('/admin');
+      console.log('[SignIn] Success, redirecting to /admin...');
+      setRedirecting(true);
+      // Use window.location for hard redirect - ensures fresh page load with auth state
+      window.location.replace('/admin');
     } else {
       setError(result.error || 'Sign in failed');
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (

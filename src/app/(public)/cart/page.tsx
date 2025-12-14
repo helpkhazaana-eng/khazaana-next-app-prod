@@ -168,7 +168,7 @@ export default function CartPage() {
           </div>
           <h2 className="text-2xl font-bold mb-3 text-slate-900">Your cart is empty</h2>
           <p className="text-slate-500 mb-8 font-medium">Looks like you haven&apos;t added anything yet. Hungry?</p>
-          <Link href="/restaurants" className="btn-primary w-full inline-flex items-center justify-center">
+          <Link href="/restaurants" className="w-full inline-flex items-center justify-center py-4 px-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-orange-200">
             Browse Restaurants
           </Link>
         </m.div>
@@ -251,7 +251,7 @@ export default function CartPage() {
               {isOpen && meetsMinimum ? (
                 <Link
                   href="/checkout"
-                  className="btn-primary w-full flex items-center justify-center gap-2 mb-4 py-4 text-lg shadow-lg shadow-orange-200"
+                  className="w-full flex items-center justify-center gap-2 mb-4 py-4 text-lg bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-all duration-200 shadow-lg shadow-orange-200"
                 >
                   Proceed to Checkout
                   <ArrowRight className="w-5 h-5" />

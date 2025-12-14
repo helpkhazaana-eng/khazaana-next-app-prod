@@ -1,8 +1,9 @@
 // Firebase client-side initialization
 // Used for push notifications and admin authentication
+// NOTE: All Firebase imports are dynamic to prevent SSR issues
 
-import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
-import { getAuth, Auth } from 'firebase/auth';
+import type { FirebaseApp } from 'firebase/app';
+import type { Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,13 +18,14 @@ let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 let messaging: any = null;
 
-// Initialize Firebase app
-function getFirebaseApp(): FirebaseApp {
+// Initialize Firebase app - async to support dynamic imports
+async function getFirebaseApp(): Promise<FirebaseApp> {
   if (typeof window === 'undefined') {
     throw new Error('Firebase client can only be used in browser');
   }
   
   if (!app) {
+    const { initializeApp, getApps } = await import('firebase/app');
     if (!getApps().length) {
       app = initializeApp(firebaseConfig);
     } else {
@@ -33,10 +35,12 @@ function getFirebaseApp(): FirebaseApp {
   return app;
 }
 
-// Get Firebase Auth instance
-export function getFirebaseAuth(): Auth {
+// Get Firebase Auth instance - async to support dynamic imports
+export async function getFirebaseAuth(): Promise<Auth> {
   if (!auth) {
-    auth = getAuth(getFirebaseApp());
+    const { getAuth } = await import('firebase/auth');
+    const firebaseApp = await getFirebaseApp();
+    auth = getAuth(firebaseApp);
   }
   return auth;
 }
@@ -47,7 +51,7 @@ export async function initializeMessaging() {
   
   try {
     const { getMessaging } = await import('firebase/messaging');
-    const firebaseApp = getFirebaseApp();
+    const firebaseApp = await getFirebaseApp();
     
     if ('serviceWorker' in navigator) {
       messaging = getMessaging(firebaseApp);
@@ -63,7 +67,7 @@ export async function initializeMessaging() {
 export async function initializeFirebase() {
   if (typeof window === 'undefined') return { app: null, messaging: null };
   
-  const firebaseApp = getFirebaseApp();
+  const firebaseApp = await getFirebaseApp();
   await initializeMessaging();
   
   return { app: firebaseApp, messaging };

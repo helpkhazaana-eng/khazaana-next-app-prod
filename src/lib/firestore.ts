@@ -60,7 +60,12 @@ export async function getSystemConfig(): Promise<SystemConfig> {
       return DEFAULT_CONFIG;
     }
     
-    return { ...DEFAULT_CONFIG, ...doc.data() } as SystemConfig;
+    const data = doc.data();
+    // Only extract the fields we need (avoid Firestore Timestamp objects)
+    return {
+      whatsappOrderNumber: data?.whatsappOrderNumber || DEFAULT_CONFIG.whatsappOrderNumber,
+      globalOverride: data?.globalOverride || DEFAULT_CONFIG.globalOverride,
+    };
   } catch (error) {
     console.error('Error getting system config:', error);
     return DEFAULT_CONFIG;

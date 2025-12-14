@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LayoutDashboard, Upload, FileText, LogOut, Store, ChefHat, BarChart, StickyNote, Loader2 } from 'lucide-react';
@@ -13,25 +13,45 @@ function AdminLayoutInner({
 }) {
   const { user, loading, signOut, isAuthenticated } = useAdminAuth();
   const router = useRouter();
+  const [redirecting, setRedirecting] = useState(false);
+  const [canRedirect, setCanRedirect] = useState(false);
+
+  // Wait 2 seconds before allowing redirects to give Firebase time to check persistence
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('[AdminLayout] Redirect lock released after 2s');
+      setCanRedirect(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  console.log('[AdminLayout] Auth state:', { loading, isAuthenticated, canRedirect, user: user?.email });
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/sign-in');
+    // Only redirect if:
+    // 1. Redirect lock is released (waited 2 seconds)
+    // 2. Not still loading
+    // 3. Not authenticated
+    // 4. Not already redirecting
+    if (canRedirect && !loading && !isAuthenticated && !redirecting) {
+      console.log('[AdminLayout] Not authenticated after wait, redirecting to sign-in');
+      setRedirecting(true);
+      window.location.href = '/sign-in';
     }
-  }, [loading, isAuthenticated, router]);
+  }, [loading, isAuthenticated, redirecting, canRedirect]);
 
   const handleSignOut = async () => {
     await signOut();
-    router.push('/');
+    window.location.href = '/';
   };
 
-  // Show loading state while checking auth
-  if (loading) {
+  // Show loading state while checking auth or redirecting
+  if (loading || redirecting) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-slate-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
-          <p className="text-slate-600 font-medium">Loading...</p>
+          <p className="text-slate-600 font-medium">{redirecting ? 'Redirecting...' : 'Loading...'}</p>
         </div>
       </div>
     );

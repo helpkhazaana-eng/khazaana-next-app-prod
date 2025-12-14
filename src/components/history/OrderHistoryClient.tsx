@@ -35,7 +35,7 @@ export default function OrderHistoryClient() {
         </div>
         <h2 className="text-2xl font-bold mb-2 text-slate-900">No orders yet</h2>
         <p className="text-slate-500 mb-8 max-w-xs mx-auto">Looks like you haven't ordered anything yet. Hungry?</p>
-        <Link href="/restaurants" className="btn-primary flex items-center gap-2">
+        <Link href="/restaurants" className="flex items-center gap-2 py-3 px-6 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-orange-200">
           <span>Browse Restaurants</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
