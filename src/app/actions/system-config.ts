@@ -18,8 +18,8 @@ export async function updateSystemPhone(phone: string) {
     revalidatePath('/'); // Revalidate home as it might show the number
     
     return { success: true, message: 'WhatsApp order number updated' };
-  } catch (error) {
-    return { success: false, message: 'Failed to update number' };
+  } catch (error: any) {
+    return { success: false, message: `Failed to update: ${error?.message || 'Unknown error'}` };
   }
 }
 
@@ -32,7 +32,7 @@ export async function updateGlobalStatus(status: 'open' | 'closed' | 'auto') {
     
     const statusText = status === 'auto' ? 'Automatic (Based on Timings)' : status === 'open' ? 'Force OPEN' : 'Force CLOSED';
     return { success: true, message: `System status set to: ${statusText}` };
-  } catch (error) {
-    return { success: false, message: 'Failed to update system status' };
+  } catch (error: any) {
+    return { success: false, message: `Failed to update: ${error?.message || 'Unknown error'}` };
   }
 }

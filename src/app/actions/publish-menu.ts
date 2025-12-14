@@ -15,9 +15,9 @@ export async function publishMenu(restaurantId: string) {
     revalidatePath('/admin');
     
     return { success: true, message: 'Menu published live successfully!' };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Publish error:', error);
-    return { success: false, message: 'Failed to publish menu.' };
+    return { success: false, message: `Failed to publish: ${error?.message || 'Unknown error'}` };
   }
 }
 
@@ -32,8 +32,8 @@ export async function discardDraft(restaurantId: string) {
     revalidatePath('/admin');
     
     return { success: true, message: 'Draft discarded.' };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Discard error:', error);
-    return { success: false, message: 'Failed to discard draft.' };
+    return { success: false, message: `Failed to discard: ${error?.message || 'Unknown error'}` };
   }
 }

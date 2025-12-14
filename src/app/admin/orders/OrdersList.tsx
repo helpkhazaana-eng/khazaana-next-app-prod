@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Search, Filter, ChevronLeft, ChevronRight, FileText, CheckCircle2, Clock, AlertCircle, RefreshCw, Wand2, ChevronDown } from 'lucide-react';
 import type { AdminOrder } from '@/lib/googleSheets';
 import { useRouter } from 'next/navigation';
@@ -269,10 +269,22 @@ function OrderStatusBadge({ status, orderId, onStatusChange }: { status: string;
     setUpdating(false);
   };
 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+
+  const handleOpen = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 4, left: rect.left });
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        ref={buttonRef}
+        onClick={handleOpen}
         disabled={updating}
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border cursor-pointer hover:opacity-80 transition-opacity ${currentStatus.color} ${updating ? 'opacity-50' : ''}`}
       >
@@ -287,8 +299,11 @@ function OrderStatusBadge({ status, orderId, onStatusChange }: { status: string;
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 min-w-[160px]">
+          <div className="fixed inset-0 z-[9998]" onClick={() => setIsOpen(false)} />
+          <div 
+            className="fixed bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-[9999] min-w-[160px]"
+            style={{ top: dropdownPos.top, left: dropdownPos.left }}
+          >
             {statusOptions.map((option) => (
               <button
                 key={option.value}

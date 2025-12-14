@@ -34,7 +34,7 @@ export async function createRestaurant(formData: FormData) {
     // Generate ID from name
     const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-    // Create Restaurant Object
+    // Create Restaurant Object - only include priority if it's defined
     const newRestaurant: Restaurant = {
       id,
       name,
@@ -51,7 +51,7 @@ export async function createRestaurant(formData: FormData) {
       priceRange,
       costForTwo,
       menuFile: `${id}.csv`, // Will be saved by uploadMenuCSV
-      priority
+      ...(priority !== undefined && { priority })
     };
 
     // Save Restaurant Draft

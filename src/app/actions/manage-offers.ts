@@ -71,9 +71,9 @@ export async function createOffer(formData: FormData) {
     revalidatePath('/admin/offers');
     
     return { success: true, message: 'Offer created successfully!' };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create offer error:', error);
-    return { success: false, message: 'Failed to create offer.' };
+    return { success: false, message: `Failed to create offer: ${error?.message || 'Unknown error'}` };
   }
 }
 
@@ -84,8 +84,8 @@ export async function deleteOffer(offerId: string) {
     revalidatePath('/');
     revalidatePath('/admin/offers');
     return { success: true, message: 'Offer deleted successfully.' };
-  } catch (error) {
-    return { success: false, message: 'Failed to delete offer.' };
+  } catch (error: any) {
+    return { success: false, message: `Failed to delete offer: ${error?.message || 'Unknown error'}` };
   }
 }
 
@@ -96,7 +96,7 @@ export async function toggleOfferStatus(offerId: string, isActive: boolean) {
     revalidatePath('/');
     revalidatePath('/admin/offers');
     return { success: true, message: `Offer ${isActive ? 'activated' : 'deactivated'} successfully.` };
-  } catch (error) {
-    return { success: false, message: 'Failed to update status.' };
+  } catch (error: any) {
+    return { success: false, message: `Failed to update status: ${error?.message || 'Unknown error'}` };
   }
 }
