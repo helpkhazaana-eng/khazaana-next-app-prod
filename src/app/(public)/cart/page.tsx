@@ -10,6 +10,7 @@ import { RESTAURANT_TIMINGS } from '@/data/restaurants';
 import { formatTime12Hour } from '@/data/restaurants';
 import { cn } from '@/lib/utils';
 import { m } from 'framer-motion';
+import { getRestaurantOpenStatus } from '@/lib/restaurant-status';
 
 // Cart List Item Component
 function CartItemList({ cart, onUpdate, onRemove }: { cart: Cart; onUpdate: (name: string, qty: number) => void; onRemove: (name: string) => void }) {
@@ -98,10 +99,35 @@ import { calculateCartTotals } from '@/lib/cart';
 export default function CartPage() {
   const [cart, setCart] = useState<Cart | null>(null);
   const [offers, setOffers] = useState<ExclusiveOffer[]>([]);
+  const [restaurantIsOpen, setRestaurantIsOpen] = useState<boolean | undefined>(undefined);
+  const [statusLoading, setStatusLoading] = useState(true);
   const timeData = useTimeManager();
-  const isOpen = timeData.isOpen;
+  
+  // Use centralized status logic: admin override takes priority over time
+  const statusResult = getRestaurantOpenStatus(restaurantIsOpen, timeData);
+  const isOpen = statusResult.canOrder;
   
   const MINIMUM_ORDER_VALUE = 100;
+
+  // Fetch restaurant status from API when cart loads
+  useEffect(() => {
+    async function fetchRestaurantStatus() {
+      const loadedCart = getCart();
+      if (loadedCart.restaurantId) {
+        try {
+          const res = await fetch(`/api/restaurant-status/${loadedCart.restaurantId}`);
+          if (res.ok) {
+            const data = await res.json();
+            setRestaurantIsOpen(data.isOpen);
+          }
+        } catch (err) {
+          console.error('Failed to fetch restaurant status:', err);
+        }
+      }
+      setStatusLoading(false);
+    }
+    fetchRestaurantStatus();
+  }, []);
 
   useEffect(() => {
     // Fetch offers first
@@ -238,11 +264,13 @@ export default function CartPage() {
                 </div>
               )}
 
-              {!isOpen && (
+              {!isOpen && !statusLoading && (
                 <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
                   <p className="text-sm text-red-800 font-medium">
                     🕒 <strong>Restaurant Closed</strong>
-                    <br />Orders accepted {formatTime12Hour(RESTAURANT_TIMINGS.opensAt)} - {formatTime12Hour(RESTAURANT_TIMINGS.closesAt)}.
+                    <br />{statusResult.reason === 'admin_closed' 
+                      ? 'This restaurant is currently closed by admin.' 
+                      : `Orders accepted ${formatTime12Hour(RESTAURANT_TIMINGS.opensAt)} - ${formatTime12Hour(RESTAURANT_TIMINGS.closesAt)}.`}
                   </p>
                 </div>
               )}
