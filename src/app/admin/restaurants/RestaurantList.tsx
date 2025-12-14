@@ -301,8 +301,9 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
                           } else {
                             showModal('error', 'Update Failed', res.message || 'Failed to update status');
                           }
-                        } catch (e) {
-                          showModal('error', 'Error', 'Failed to update status');
+                        } catch (e: any) {
+                          console.error('Status change error:', e);
+                          showModal('error', 'Error', e?.message || 'Failed to update status');
                         } finally {
                           setLoadingId(null);
                         }

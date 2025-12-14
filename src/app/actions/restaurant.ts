@@ -14,15 +14,24 @@ export async function setRestaurantOpenStatusAction(
   try {
     await requireAdmin();
     
+    console.log(`[setRestaurantOpenStatusAction] Setting ${restaurantId} to ${status}`);
+    
     const restaurant = await setRestaurantOpenStatus(restaurantId, status);
     
-    revalidatePath('/admin/restaurants');
-    revalidatePath('/restaurants');
-    revalidatePath(`/restaurants/${restaurantId}`);
-    revalidatePath('/');
-    revalidatePath('/(public)/restaurants', 'page');
+    console.log(`[setRestaurantOpenStatusAction] Success:`, restaurant?.name);
     
-    const statusMessages = {
+    // Revalidate paths - wrap in try-catch to prevent revalidation errors from failing the action
+    try {
+      revalidatePath('/admin/restaurants');
+      revalidatePath('/restaurants');
+      revalidatePath(`/restaurants/${restaurantId}`);
+      revalidatePath('/');
+    } catch (revalError) {
+      console.warn('Revalidation warning:', revalError);
+      // Don't fail the action if revalidation has issues
+    }
+    
+    const statusMessages: Record<RestaurantOpenStatus, string> = {
       'open': `${restaurant.name} is now OPEN (overrides time restrictions)`,
       'closed': `${restaurant.name} is now CLOSED`,
       'default': `${restaurant.name} is now on DEFAULT schedule (9 AM - 9 PM)`
