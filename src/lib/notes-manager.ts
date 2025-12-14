@@ -1,8 +1,4 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'src/data');
-const NOTES_FILE = path.join(DATA_DIR, 'admin-notes.json');
+import { getFirestore } from './firestore';
 
 export type NoteType = 'bug' | 'feature' | 'general';
 
@@ -15,18 +11,26 @@ export interface Note {
   updatedAt: string;
 }
 
-async function ensureDataDir() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-}
-
 export async function getAllNotes(): Promise<Note[]> {
   try {
-    await ensureDataDir();
-    const data = await fs.readFile(NOTES_FILE, 'utf-8');
-    const notes: Note[] = JSON.parse(data);
-    // Sort by createdAt descending (newest first)
-    return notes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    const db = getFirestore();
+    const snapshot = await db.collection('notes')
+      .orderBy('createdAt', 'desc')
+      .get();
+    
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        heading: data.heading,
+        type: data.type as NoteType,
+        description: data.description,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
+      };
+    });
   } catch (error) {
+    console.error('Error getting notes:', error);
     return [];
   }
 }
@@ -47,51 +51,79 @@ export async function getNoteById(id: string): Promise<Note | undefined> {
 }
 
 export async function createNote(data: Omit<Note, 'id' | 'createdAt' | 'updatedAt'>): Promise<Note> {
-  const notes = await getAllNotes();
-  
-  const newNote: Note = {
-    id: `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    heading: data.heading,
-    type: data.type,
-    description: data.description,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-  
-  notes.unshift(newNote); // Add to beginning
-  
-  await ensureDataDir();
-  await fs.writeFile(NOTES_FILE, JSON.stringify(notes, null, 2));
-  
-  return newNote;
+  try {
+    const db = getFirestore();
+    const noteId = `note-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const now = new Date().toISOString();
+    
+    const newNote: Note = {
+      id: noteId,
+      heading: data.heading,
+      type: data.type,
+      description: data.description,
+      createdAt: now,
+      updatedAt: now,
+    };
+    
+    await db.collection('notes').doc(noteId).set({
+      heading: newNote.heading,
+      type: newNote.type,
+      description: newNote.description,
+      createdAt: newNote.createdAt,
+      updatedAt: newNote.updatedAt,
+    });
+    
+    return newNote;
+  } catch (error) {
+    console.error('Error creating note:', error);
+    throw error;
+  }
 }
 
 export async function updateNote(id: string, data: Partial<Omit<Note, 'id' | 'createdAt'>>): Promise<Note | null> {
-  const notes = await getAllNotes();
-  const index = notes.findIndex(n => n.id === id);
-  
-  if (index === -1) return null;
-  
-  notes[index] = {
-    ...notes[index],
-    ...data,
-    updatedAt: new Date().toISOString(),
-  };
-  
-  await ensureDataDir();
-  await fs.writeFile(NOTES_FILE, JSON.stringify(notes, null, 2));
-  
-  return notes[index];
+  try {
+    const db = getFirestore();
+    const docRef = db.collection('notes').doc(id);
+    const doc = await docRef.get();
+    
+    if (!doc.exists) return null;
+    
+    const updateData = {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    };
+    
+    await docRef.update(updateData);
+    
+    const updatedDoc = await docRef.get();
+    const updatedData = updatedDoc.data();
+    
+    return {
+      id: updatedDoc.id,
+      heading: updatedData?.heading,
+      type: updatedData?.type as NoteType,
+      description: updatedData?.description,
+      createdAt: updatedData?.createdAt,
+      updatedAt: updatedData?.updatedAt,
+    };
+  } catch (error) {
+    console.error('Error updating note:', error);
+    throw error;
+  }
 }
 
 export async function deleteNote(id: string): Promise<boolean> {
-  const notes = await getAllNotes();
-  const filtered = notes.filter(n => n.id !== id);
-  
-  if (filtered.length === notes.length) return false;
-  
-  await ensureDataDir();
-  await fs.writeFile(NOTES_FILE, JSON.stringify(filtered, null, 2));
-  
-  return true;
+  try {
+    const db = getFirestore();
+    const docRef = db.collection('notes').doc(id);
+    const doc = await docRef.get();
+    
+    if (!doc.exists) return false;
+    
+    await docRef.delete();
+    return true;
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    throw error;
+  }
 }
