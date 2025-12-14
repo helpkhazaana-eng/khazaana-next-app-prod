@@ -378,6 +378,179 @@ export async function publishMenuToFirestore(restaurantId: string): Promise<void
 // ============================================================
 // MIGRATION HELPER - Import existing data to Firestore
 // ============================================================
+// ORDERS (Realtime Status Updates)
+// ============================================================
+
+export type OrderStatus = 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+
+export interface FirestoreOrder {
+  orderId: string;
+  restaurantId: string;
+  restaurantName: string;
+  items: Array<{
+    itemName: string;
+    price: number;
+    quantity: number;
+    vegNonVeg: 'Veg' | 'Non-Veg';
+  }>;
+  customer: {
+    name: string;
+    phone: string;
+    email?: string;
+    address: string;
+    latitude?: number;
+    longitude?: number;
+  };
+  subtotal: number;
+  tax: number;
+  total: number;
+  deliveryFee: number;
+  status: OrderStatus;
+  fcmToken?: string;
+  orderTime: string;
+  updatedAt?: string;
+}
+
+// Save order to Firestore (called during checkout)
+export async function saveOrderToFirestore(order: FirestoreOrder): Promise<void> {
+  try {
+    const db = getFirestore();
+    await db.collection('orders').doc(order.orderId).set({
+      ...order,
+      updatedAt: new Date().toISOString(),
+    });
+    console.log('[Firestore] Order saved:', order.orderId);
+  } catch (error) {
+    console.error('[Firestore] Error saving order:', error);
+    throw error;
+  }
+}
+
+// Get order by ID
+export async function getOrderFromFirestore(orderId: string): Promise<FirestoreOrder | null> {
+  try {
+    const db = getFirestore();
+    const doc = await db.collection('orders').doc(orderId).get();
+    
+    if (!doc.exists) return null;
+    
+    const data = doc.data();
+    return {
+      orderId: doc.id,
+      restaurantId: data?.restaurantId,
+      restaurantName: data?.restaurantName,
+      items: data?.items || [],
+      customer: data?.customer || {},
+      subtotal: data?.subtotal || 0,
+      tax: data?.tax || 0,
+      total: data?.total || 0,
+      deliveryFee: data?.deliveryFee || 0,
+      status: data?.status || 'pending',
+      fcmToken: data?.fcmToken,
+      orderTime: data?.orderTime,
+      updatedAt: data?.updatedAt,
+    } as FirestoreOrder;
+  } catch (error) {
+    console.error('[Firestore] Error getting order:', error);
+    return null;
+  }
+}
+
+// Update order status (Admin action)
+export async function updateOrderStatus(orderId: string, status: OrderStatus): Promise<boolean> {
+  try {
+    const db = getFirestore();
+    await db.collection('orders').doc(orderId).update({
+      status,
+      updatedAt: new Date().toISOString(),
+    });
+    console.log('[Firestore] Order status updated:', orderId, status);
+    return true;
+  } catch (error) {
+    console.error('[Firestore] Error updating order status:', error);
+    return false;
+  }
+}
+
+// Get orders by phone number (for user order history)
+export async function getOrdersByPhone(phone: string): Promise<FirestoreOrder[]> {
+  try {
+    const db = getFirestore();
+    const snapshot = await db.collection('orders')
+      .where('customer.phone', '==', phone)
+      .orderBy('orderTime', 'desc')
+      .limit(50)
+      .get();
+    
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        orderId: doc.id,
+        restaurantId: data.restaurantId,
+        restaurantName: data.restaurantName,
+        items: data.items || [],
+        customer: data.customer || {},
+        subtotal: data.subtotal || 0,
+        tax: data.tax || 0,
+        total: data.total || 0,
+        deliveryFee: data.deliveryFee || 0,
+        status: data.status || 'pending',
+        fcmToken: data.fcmToken,
+        orderTime: data.orderTime,
+        updatedAt: data.updatedAt,
+      } as FirestoreOrder;
+    });
+  } catch (error) {
+    console.error('[Firestore] Error getting orders by phone:', error);
+    return [];
+  }
+}
+
+// Get all orders for admin (with pagination)
+export async function getAdminOrdersFromFirestore(
+  limit: number = 50,
+  status?: OrderStatus
+): Promise<FirestoreOrder[]> {
+  try {
+    const db = getFirestore();
+    let query = db.collection('orders').orderBy('orderTime', 'desc').limit(limit);
+    
+    if (status) {
+      query = db.collection('orders')
+        .where('status', '==', status)
+        .orderBy('orderTime', 'desc')
+        .limit(limit);
+    }
+    
+    const snapshot = await query.get();
+    
+    return snapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        orderId: doc.id,
+        restaurantId: data.restaurantId,
+        restaurantName: data.restaurantName,
+        items: data.items || [],
+        customer: data.customer || {},
+        subtotal: data.subtotal || 0,
+        tax: data.tax || 0,
+        total: data.total || 0,
+        deliveryFee: data.deliveryFee || 0,
+        status: data.status || 'pending',
+        fcmToken: data.fcmToken,
+        orderTime: data.orderTime,
+        updatedAt: data.updatedAt,
+      } as FirestoreOrder;
+    });
+  } catch (error) {
+    console.error('[Firestore] Error getting admin orders:', error);
+    return [];
+  }
+}
+
+// ============================================================
+// MIGRATION HELPERS
+// ============================================================
 
 export async function migrateRestaurantsToFirestore(restaurants: Restaurant[]): Promise<void> {
   const db = getFirestore();

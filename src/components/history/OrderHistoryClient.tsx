@@ -3,9 +3,55 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getOrderHistory } from '@/lib/cart';
+import { useOrderStatus, type OrderStatus, type RealtimeOrder } from '@/hooks/useOrderStatus';
 import type { Order } from '@/types';
 import { m } from 'framer-motion';
-import { Package, MapPin, Phone, Mail, ArrowRight, CheckCircle2, RotateCcw } from 'lucide-react';
+import { Package, MapPin, ArrowRight, CheckCircle2, RotateCcw, Clock, Truck, XCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+// Status badge component
+function OrderStatusBadge({ status, orderId }: { status: OrderStatus; orderId: string }) {
+  // Use realtime hook for this specific order
+  const { order: realtimeOrder } = useOrderStatus(orderId);
+  
+  // Use realtime status if available, otherwise fall back to passed status
+  const currentStatus = realtimeOrder?.status || status;
+  
+  const statusConfig: Record<OrderStatus, { label: string; color: string; icon: React.ReactNode }> = {
+    pending: { 
+      label: 'Pending', 
+      color: 'text-yellow-600 bg-yellow-50 border-yellow-200',
+      icon: <Clock className="w-3 h-3" />
+    },
+    confirmed: { 
+      label: 'Confirmed', 
+      color: 'text-blue-600 bg-blue-50 border-blue-200',
+      icon: <CheckCircle2 className="w-3 h-3" />
+    },
+    delivered: { 
+      label: 'Delivered', 
+      color: 'text-green-600 bg-green-50 border-green-200',
+      icon: <Truck className="w-3 h-3" />
+    },
+    cancelled: { 
+      label: 'Cancelled', 
+      color: 'text-red-600 bg-red-50 border-red-200',
+      icon: <XCircle className="w-3 h-3" />
+    },
+  };
+
+  const config = statusConfig[currentStatus] || statusConfig.pending;
+
+  return (
+    <span className={cn(
+      "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold border",
+      config.color
+    )}>
+      {config.icon}
+      {config.label}
+    </span>
+  );
+}
 
 export default function OrderHistoryClient() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -77,8 +123,8 @@ export default function OrderHistoryClient() {
                     </div>
                     <div>
                         <h3 className="font-bold text-base text-slate-900 line-clamp-1">{order.restaurantName}</h3>
-                        <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
-                            <span className="text-green-600 font-bold">Delivered</span>
+                        <p className="text-xs text-slate-500 flex items-center gap-2 mt-1">
+                            <OrderStatusBadge status={order.status || 'pending'} orderId={order.orderId} />
                             <span>•</span>
                             <span>{formattedDate}, {formattedTime}</span>
                         </p>

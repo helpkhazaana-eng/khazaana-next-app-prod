@@ -1,9 +1,10 @@
 // Firebase client-side initialization
-// Used for push notifications and admin authentication
+// Used for push notifications, admin authentication, and realtime Firestore
 // NOTE: All Firebase imports are dynamic to prevent SSR issues
 
 import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
+import type { Firestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,6 +18,7 @@ const firebaseConfig = {
 let app: FirebaseApp | null = null;
 let auth: Auth | null = null;
 let messaging: any = null;
+let firestore: Firestore | null = null;
 
 // Initialize Firebase app - async to support dynamic imports
 async function getFirebaseApp(): Promise<FirebaseApp> {
@@ -63,15 +65,26 @@ export async function initializeMessaging() {
   }
 }
 
+// Get Firestore instance for client-side realtime updates
+export async function getClientFirestore(): Promise<Firestore> {
+  if (!firestore) {
+    const { getFirestore: getFs } = await import('firebase/firestore');
+    const firebaseApp = await getFirebaseApp();
+    firestore = getFs(firebaseApp);
+  }
+  return firestore;
+}
+
 // Legacy exports for compatibility
 export async function initializeFirebase() {
-  if (typeof window === 'undefined') return { app: null, messaging: null };
+  if (typeof window === 'undefined') return { app: null, messaging: null, firestore: null };
   
   const firebaseApp = await getFirebaseApp();
   await initializeMessaging();
+  const fs = await getClientFirestore();
   
-  return { app: firebaseApp, messaging };
+  return { app: firebaseApp, messaging, firestore: fs };
 }
 
 export const getFirebaseMessaging = () => messaging;
-export { app, messaging };
+export { app, messaging, firestore };

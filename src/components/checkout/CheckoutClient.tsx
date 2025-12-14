@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { MapPin, User, Mail, MessageCircle, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { MapPin, User, Mail, MessageCircle, AlertTriangle, ArrowLeft, Bell } from 'lucide-react';
 import { getCart, clearCart, saveOrderToHistory, calculateCartTotals } from '@/lib/cart';
 import { submitCompleteOrder, type OrderItem, type CustomerInfo, type OrderPricing } from '@/lib/googleSheets';
 import { generateWhatsAppURLFromOrderData } from '@/lib/whatsapp';
@@ -14,7 +14,9 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { m, AnimatePresence } from 'framer-motion';
 import { getPublicActiveOffers } from '@/app/actions/get-public-offers';
+import { saveOrderToFirestoreAction } from '@/app/actions/save-order-firestore';
 import type { ExclusiveOffer } from '@/data/offers';
+import type { FirestoreOrder } from '@/lib/firestore';
 
 // Success Animation Component
 function SuccessAnimation() {
@@ -61,13 +63,21 @@ interface CheckoutClientProps {
 export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverride = 'auto', systemPhone }: CheckoutClientProps) {
   const router = useRouter();
   const timeData = useTimeManager();
-  const { token: fcmToken } = useFcmToken();
+  const { token: fcmToken, notificationPermission, requestPermission } = useFcmToken();
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false); // Add success state
+  const [success, setSuccess] = useState(false);
   const [locationStatus, setLocationStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error'; message: string }>({ type: 'idle', message: '' });
   const [customerLocation, setCustomerLocation] = useState<{ latitude?: number; longitude?: number }>({});
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
+
+  // Show notification prompt if permission not granted
+  useEffect(() => {
+    if (notificationPermission === 'default') {
+      setShowNotificationPrompt(true);
+    }
+  }, [notificationPermission]);
   
   const MINIMUM_ORDER_VALUE = 100;
 
@@ -255,6 +265,8 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
         throw new Error(result.message);
       }
 
+      const orderTime = new Date().toISOString();
+
       // Create local order record
       const order: Order = {
         orderId: result.orderId,
@@ -266,11 +278,44 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
         tax: cart.tax,
         total: cart.total,
         deliveryFee: cart.deliveryFee,
-        orderTime: new Date().toISOString(),
+        orderTime,
         status: 'pending'
       };
 
       saveOrderToHistory(order);
+
+      // Save order to Firestore for realtime status updates
+      const firestoreOrder: FirestoreOrder = {
+        orderId: result.orderId,
+        restaurantId: cart.restaurantId || '',
+        restaurantName: cart.restaurantName || '',
+        items: cart.items.map(item => ({
+          itemName: item.itemName,
+          price: item.price,
+          quantity: item.quantity,
+          vegNonVeg: item.vegNonVeg,
+        })),
+        customer: {
+          name: customer.name,
+          phone: customer.phone,
+          email: customer.email,
+          address: customer.address,
+          latitude: customer.latitude,
+          longitude: customer.longitude,
+        },
+        subtotal: cart.subtotal,
+        tax: cart.tax,
+        total: cart.total,
+        deliveryFee: cart.deliveryFee || 0,
+        status: 'pending',
+        fcmToken: fcmToken || undefined,
+        orderTime,
+      };
+
+      // Save to Firestore (don't block on this)
+      saveOrderToFirestoreAction(firestoreOrder).catch(err => {
+        console.error('Failed to save order to Firestore:', err);
+      });
 
       const whatsappURL = generateWhatsAppURLFromOrderData(
         result.orderId,
@@ -334,6 +379,40 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
                     : 'Orders accepted 9:00 AM - 9:00 PM.'
                   }
                 </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Notification Permission Prompt */}
+        {showNotificationPrompt && notificationPermission === 'default' && (
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+            <div className="flex items-start space-x-3">
+              <Bell className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="font-bold text-blue-800 text-sm mb-1">Enable Order Updates</h3>
+                <p className="text-blue-700 text-xs mb-3">
+                  Get real-time notifications when your order is confirmed and delivered.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await requestPermission();
+                      setShowNotificationPrompt(false);
+                    }}
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-colors"
+                  >
+                    Enable Notifications
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowNotificationPrompt(false)}
+                    className="px-3 py-1.5 text-blue-700 text-xs font-medium hover:underline"
+                  >
+                    Not now
+                  </button>
+                </div>
               </div>
             </div>
           </div>
