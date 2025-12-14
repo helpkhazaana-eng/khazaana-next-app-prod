@@ -1,20 +1,8 @@
 'use server';
 
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
 import Papa from 'papaparse';
-import { revalidatePath } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
-
-// Define the shape of our menu items
-interface MenuItem {
-  itemName: string;
-  price: number;
-  category: string;
-  vegNonVeg: 'Veg' | 'Non-Veg';
-  description?: string;
-  inStock?: boolean;
-}
+import { saveDraftMenuToFirestore, type MenuItem } from '@/lib/firestore';
 
 export async function uploadMenuCSV(formData: FormData) {
   try {
@@ -73,21 +61,8 @@ export async function uploadMenuCSV(formData: FormData) {
       return { success: false, message: 'No valid menu items found in CSV' };
     }
 
-    // Save as DRAFT JSON first
-    const dataDir = join(process.cwd(), 'src', 'data', 'menus-json');
-    await mkdir(dataDir, { recursive: true });
-    
-    // Use .draft.json extension
-    const filePath = join(dataDir, `${restaurantId}.draft.json`);
-    await writeFile(filePath, JSON.stringify(validItems, null, 2));
-
-    // Also update the CSV file for reference/download
-    const csvDir = join(process.cwd(), 'src', 'data', 'menus-csv');
-    await mkdir(csvDir, { recursive: true });
-    const csvPath = join(csvDir, `${restaurantId}.draft.csv`);
-    await writeFile(csvPath, csvContent);
-
-    // No revalidate needed yet as it's a draft
+    // Save draft menu to Firestore
+    await saveDraftMenuToFirestore(restaurantId, validItems);
     
     return { 
       success: true, 

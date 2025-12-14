@@ -6,18 +6,32 @@ function initializeFirebaseAdmin() {
     return admin.apps[0]!;
   }
 
-  // Load service account from JSON file in project root
-  // This file should NOT be committed to git
+  // Use environment variables for Firebase Admin credentials
+  // These should be set in Vercel dashboard for production
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  const databaseId = process.env.FIREBASE_DATABASE_ID || '(default)';
+
+  if (!projectId || !clientEmail || !privateKey) {
+    console.error('Firebase Admin SDK: Missing environment variables');
+    console.error('Required: FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY');
+    throw new Error('Firebase Admin SDK initialization failed. Missing environment variables.');
+  }
+
   try {
-    const serviceAccount = require('../../khazaana-app-firebase-adminsdk-fbsvc-1c9747965b.json');
-    
     return admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      projectId: serviceAccount.project_id,
+      credential: admin.credential.cert({
+        projectId,
+        clientEmail,
+        privateKey,
+      }),
+      projectId,
+      databaseId, // Explicitly specify database ID
     });
   } catch (error) {
     console.error('Failed to initialize Firebase Admin:', error);
-    throw new Error('Firebase Admin SDK initialization failed. Ensure the service account JSON file exists.');
+    throw new Error('Firebase Admin SDK initialization failed.');
   }
 }
 

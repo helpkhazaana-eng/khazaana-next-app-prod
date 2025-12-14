@@ -1,31 +1,15 @@
 'use server';
 
-import { rename, unlink, mkdir } from 'fs/promises';
-import { join } from 'path';
 import { revalidatePath } from 'next/cache';
 import { requireAdmin } from '@/lib/auth';
+import { publishMenuToFirestore, getFirestore } from '@/lib/firestore';
 
 export async function publishMenu(restaurantId: string) {
   try {
     await requireAdmin();
-    const dataDir = join(process.cwd(), 'src', 'data', 'menus-json');
-    const csvDir = join(process.cwd(), 'src', 'data', 'menus-csv');
-
-    // Paths
-    const draftJson = join(dataDir, `${restaurantId}.draft.json`);
-    const liveJson = join(dataDir, `${restaurantId}.json`);
-    const draftCsv = join(csvDir, `${restaurantId}.draft.csv`);
-    const liveCsv = join(csvDir, `${restaurantId}.csv`);
-
-    // Move Draft -> Live
-    await rename(draftJson, liveJson);
     
-    // Try to move CSV if it exists (it should)
-    try {
-      await rename(draftCsv, liveCsv);
-    } catch (e) {
-      console.warn('Draft CSV not found or could not be moved:', e);
-    }
+    // Publish menu from draft to live in Firestore
+    await publishMenuToFirestore(restaurantId);
 
     revalidatePath(`/restaurants/${restaurantId}`);
     revalidatePath('/admin');
@@ -40,20 +24,10 @@ export async function publishMenu(restaurantId: string) {
 export async function discardDraft(restaurantId: string) {
   try {
     await requireAdmin();
-    const dataDir = join(process.cwd(), 'src', 'data', 'menus-json');
-    const csvDir = join(process.cwd(), 'src', 'data', 'menus-csv');
-
-    // Paths
-    const draftJson = join(dataDir, `${restaurantId}.draft.json`);
-    const draftCsv = join(csvDir, `${restaurantId}.draft.csv`);
-
-    // Delete
-    await unlink(draftJson);
-    try {
-      await unlink(draftCsv);
-    } catch (e) {
-      // Ignore if csv doesn't exist
-    }
+    
+    // Delete draft menu from Firestore
+    const db = getFirestore();
+    await db.collection('menus').doc(`${restaurantId}_draft`).delete();
 
     revalidatePath('/admin');
     

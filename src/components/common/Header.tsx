@@ -8,6 +8,8 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { LanguageToggleCompact } from '@/components/LanguageToggle';
+import NotificationBell from '@/components/common/NotificationBell';
 
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false });
 
@@ -66,7 +68,9 @@ export default function Header() {
             </nav>
 
             {/* Right Side Actions */}
-            <div className="flex items-center gap-4 flex-shrink-0">
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <LanguageToggleCompact />
+              
               <button 
                 onClick={() => setIsSearchOpen(true)}
                 className="p-2.5 rounded-full hover:bg-slate-100 text-slate-600 transition-colors"
@@ -75,15 +79,7 @@ export default function Header() {
                 <Search className="w-5 h-5" />
               </button>
 
-              <Link 
-                href="/notifications"
-                className="p-2.5 text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-full transition-all"
-                aria-label="Notifications"
-              >
-                <div className="w-5 h-5 bg-orange-100 rounded-full flex items-center justify-center">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                </div>
-              </Link>
+              <NotificationBell />
               
               <Link href="/cart" className="relative p-2.5 rounded-full hover:bg-orange-50 text-slate-600 hover:text-orange-600 transition-colors">
                 <ShoppingCart className="w-5 h-5" />

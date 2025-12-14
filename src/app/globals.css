@@ -600,3 +600,49 @@ body.veg-mode-active .veg-mode-switch .veg-mode-slider {
 .cl-internal-b3fm6y {
   display: none !important;
 }
+
+/* Notification Bell Animations */
+@keyframes steam-1 {
+  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.6; }
+  50% { transform: translateY(-4px) scaleY(1.2); opacity: 0.3; }
+}
+
+@keyframes steam-2 {
+  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.5; }
+  50% { transform: translateY(-3px) scaleY(1.1); opacity: 0.2; }
+}
+
+@keyframes steam-3 {
+  0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.6; }
+  50% { transform: translateY(-5px) scaleY(1.3); opacity: 0.3; }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.animate-steam-1 {
+  animation: steam-1 1.5s ease-in-out infinite;
+}
+
+.animate-steam-2 {
+  animation: steam-2 1.8s ease-in-out infinite 0.2s;
+}
+
+.animate-steam-3 {
+  animation: steam-3 1.6s ease-in-out infinite 0.4s;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}

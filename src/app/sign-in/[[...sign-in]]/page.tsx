@@ -79,27 +79,27 @@ export default function SignInPage() {
       } else if (result.status === 'needs_second_factor') {
         // Check available strategies
         const secondFactors = result.supportedSecondFactors || [];
-        const hasEmailCode = secondFactors.some((f: any) => f.strategy === 'email_code');
         const hasTOTP = secondFactors.some((f: any) => f.strategy === 'totp');
+        const hasPhoneCode = secondFactors.some((f: any) => f.strategy === 'phone_code');
+        const hasBackupCode = secondFactors.some((f: any) => f.strategy === 'backup_code');
 
-        if (hasEmailCode) {
-          // Send email code immediately
-          await signIn.prepareFirstFactor({ strategy: 'email_code', emailAddressId: result.identifier as string }); 
-          // Note: for second factor, we typically use prepareSecondFactor, but let's check docs or infer.
-          // actually for second factor it is prepareSecondFactor
-          const emailFactor = secondFactors.find((f: any) => f.strategy === 'email_code');
-          if (emailFactor) {
-             await signIn.prepareSecondFactor({ strategy: 'email_code', emailAddressId: emailFactor.emailAddressId });
-          }
-          setMfaType('email_code');
-          setNeedsMFA(true);
-        } else if (hasTOTP) {
+        // TOTP (Authenticator app) - no preparation needed, just show input
+        if (hasTOTP) {
           setMfaType('totp');
           setNeedsMFA(true);
+          setError('');
+        } else if (hasPhoneCode || hasBackupCode) {
+          // For other strategies, show a helpful message
+          setError('Please use your authenticator app or backup codes. Contact admin if you need help.');
         } else {
-           setError('No supported 2FA method found (Email or TOTP required)');
+          // No MFA configured but Clerk is requiring it - this is a configuration issue
+          console.error('MFA required but no supported methods found:', secondFactors);
+          setError('Two-factor authentication is required but not configured. Please contact the administrator to disable 2FA in Clerk dashboard, or set up an authenticator app.');
         }
-        setError('');
+      } else if (result.status === 'needs_first_factor') {
+        // This shouldn't happen with email/password, but handle it
+        console.error('Needs first factor:', result);
+        setError('Additional verification required. Please try again or contact support.');
       } else {
         console.error('Sign in status:', result.status);
         setError('Unexpected sign-in status. Please contact support.');

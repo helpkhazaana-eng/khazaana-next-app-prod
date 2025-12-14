@@ -6,6 +6,8 @@ import { m } from 'framer-motion';
 import type { Restaurant } from '@/types';
 import { getFormattedTimings } from '@/data/restaurants';
 import { useTimeManager } from '@/hooks/useTimeManager';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translateRestaurantName, translateCategory } from '@/lib/translations';
 import { cn } from '@/lib/utils';
 
 interface RestaurantHeroProps {
@@ -14,6 +16,19 @@ interface RestaurantHeroProps {
 
 export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
   const timeData = useTimeManager();
+  const { language } = useLanguage();
+  
+  // Get translated values
+  const displayName = language === 'bn' ? translateRestaurantName(restaurant.name) : restaurant.name;
+  const displayCategory = language === 'bn' ? translateCategory(restaurant.category) : restaurant.category;
+  const backText = language === 'bn' ? 'ফিরে যান' : 'Back';
+  const ratingText = language === 'bn' ? 'রেটিং' : 'Rating';
+  const timeText = language === 'bn' ? 'সময়' : 'Time';
+  const statusText = language === 'bn' ? 'বর্তমান অবস্থা' : 'Current Status';
+  const openNowText = language === 'bn' ? 'এখন খোলা' : 'Open Now';
+  const closedText = language === 'bn' ? 'বন্ধ' : 'Closed';
+  const acceptingOrdersText = language === 'bn' ? 'অর্ডার নেওয়া হচ্ছে' : 'Accepting orders';
+  const opensTomorrowText = language === 'bn' ? 'আগামীকাল সকাল ৯টায় খুলবে' : 'Opens tomorrow at 9 AM';
   
   // Calculate open status based on timeManager (client-side)
   const currentMinutes = timeData.istHour * 60 + timeData.istMinute;
@@ -24,7 +39,12 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
   const openTime = openHour * 60 + openMin;
   const closeTime = closeHour * 60 + closeMin;
   
-  const isOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
+  
+  // Apply global override if set
+  let isOpen = isTimeOpen;
+  if (timeData.overrideStatus === 'open') isOpen = true;
+  if (timeData.overrideStatus === 'closed') isOpen = false;
   
   return (
     <div className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden">
@@ -43,7 +63,7 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
           >
              <Link href="/restaurants" className="inline-flex items-center text-slate-500 hover:text-orange-600 transition-colors text-sm font-bold group bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-200 shadow-sm hover:shadow-md">
                 <ArrowLeft className="w-4 h-4 mr-1.5 group-hover:-translate-x-1 transition-transform" />
-                Back
+                {backText}
              </Link>
           </m.div>
           
@@ -59,15 +79,11 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
                      transition={{ duration: 0.5 }}
                    >
                      <span className="inline-block px-3 py-1 bg-orange-100 text-orange-700 text-[10px] font-extrabold uppercase tracking-widest rounded-lg mb-3">
-                        {restaurant.category}
+                        {displayCategory}
                      </span>
                      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1] mb-2">
-                        {restaurant.name}
+                        {displayName}
                      </h1>
-                     <p className="text-slate-500 font-medium text-sm md:text-base flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-slate-400" />
-                        {restaurant.address}
-                     </p>
                    </m.div>
                    
                    <m.div 
@@ -79,7 +95,7 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
                       <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-100 shadow-sm">
                          <Star className="w-5 h-5 text-yellow-400 fill-current" />
                          <div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Rating</p>
+                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{ratingText}</p>
                             <p className="text-slate-900 font-black text-lg leading-none">{restaurant.rating}</p>
                          </div>
                       </div>
@@ -89,7 +105,7 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
                       <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl border border-slate-100 shadow-sm">
                          <Clock className="w-5 h-5 text-blue-500" />
                          <div>
-                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">Time</p>
+                            <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{timeText}</p>
                             <p className="text-slate-900 font-bold text-sm leading-tight">{getFormattedTimings(restaurant)}</p>
                          </div>
                       </div>
@@ -106,15 +122,15 @@ export default function RestaurantHero({ restaurant }: RestaurantHeroProps) {
                    <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden group w-full md:min-w-[200px] text-center md:text-left">
                       <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700" />
                       
-                      <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Current Status</p>
+                      <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">{statusText}</p>
                       <div className="flex items-center justify-center md:justify-start gap-2">
                          <span className="relative flex h-3 w-3">
-                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                           <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                           {isOpen && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>}
+                           <span className={cn("relative inline-flex rounded-full h-3 w-3", isOpen ? "bg-green-500" : "bg-red-500")}></span>
                          </span>
-                         <span className="text-2xl font-black tracking-tight">Open Now</span>
+                         <span className="text-2xl font-black tracking-tight">{isOpen ? openNowText : closedText}</span>
                       </div>
-                      <p className="text-slate-400 text-xs mt-2 font-medium">Accepting orders</p>
+                      <p className="text-slate-400 text-xs mt-2 font-medium">{isOpen ? acceptingOrdersText : opensTomorrowText}</p>
                    </div>
                 </m.div>
              </div>

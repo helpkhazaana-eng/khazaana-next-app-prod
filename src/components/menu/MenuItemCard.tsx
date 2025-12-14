@@ -5,6 +5,8 @@ import { Plus, Minus, ShoppingBag } from 'lucide-react';
 import type { MenuItem } from '@/types';
 import { cn } from '@/lib/utils';
 import { useTimeManager } from '@/hooks/useTimeManager';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { translateItemName, formatPrice, t } from '@/lib/translations';
 import { m } from 'framer-motion';
 
 interface MenuItemProps {
@@ -26,6 +28,13 @@ export default function MenuItemCard({
 }: MenuItemProps) {
   const [quantity, setQuantity] = useState(0);
   const timeData = useTimeManager();
+  const { language } = useLanguage();
+  
+  // Get translated item name based on language
+  const displayName = language === 'bn' ? translateItemName(item.itemName) : item.itemName;
+  const displayPrice = formatPrice(item.price, language);
+  const vegLabel = language === 'bn' ? (item.vegNonVeg === 'Non-Veg' ? 'আমিষ' : 'নিরামিষ') : item.vegNonVeg;
+  const addToCartText = language === 'bn' ? 'কার্টে যোগ করুন' : 'Add to Cart';
   
   // Calculate real-time open status
   const currentMinutes = timeData.istHour * 60 + timeData.istMinute;
@@ -154,12 +163,12 @@ export default function MenuItemCard({
                     item.vegNonVeg === 'Non-Veg' ? "bg-red-500" : "bg-green-500"
                 )}></span>
             </span>
-            <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">{item.vegNonVeg === 'Non-Veg' ? 'Non-Veg' : 'Veg'}</span>
+            <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">{vegLabel}</span>
           </div>
           <h4 className="font-extrabold text-slate-900 text-lg leading-tight mb-1 group-hover:text-orange-600 transition-colors line-clamp-2">
-            {item.itemName}
+            {displayName}
           </h4>
-          <p className="font-bold text-slate-900 text-base">₹{item.price}</p>
+          <p className="font-bold text-slate-900 text-base">{displayPrice}</p>
         </div>
       </div>
 
@@ -180,7 +189,7 @@ export default function MenuItemCard({
             )}
           >
             <ShoppingBag className="w-4 h-4" />
-            Add to Cart
+            {addToCartText}
           </button>
         ) : (
           <div className="flex items-center justify-between bg-orange-50 rounded-xl border border-orange-200 p-1">

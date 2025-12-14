@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import AppInit from "@/components/common/AppInit";
 import FramerProvider from "@/components/common/FramerProvider";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { generateMetaKeywords, generateLocalBusinessSchema } from "@/lib/seo";
 import "./globals.css";
 
@@ -98,10 +99,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
-        <FramerProvider>
-          <AppInit />
-          {children}
-        </FramerProvider>
+        <LanguageProvider>
+          <FramerProvider>
+            <AppInit />
+            {children}
+          </FramerProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
