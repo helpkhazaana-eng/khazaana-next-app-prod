@@ -570,37 +570,6 @@ body.veg-mode-active .veg-mode-switch .veg-mode-slider {
   outline-offset: 2px;
 }
 
-/* Clerk Overrides */
-.cl-socialButtonsBlockButton {
-  display: none !important;
-}
-
-.cl-dividerRow {
-  display: none !important;
-}
-
-.cl-footer {
-  display: none !important;
-}
-
-.cl-header {
-  display: none !important;
-}
-
-.cl-card {
-  box-shadow: none !important;
-  background: transparent !important;
-  padding: 0 !important;
-}
-
-.cl-rootBox {
-  width: 100% !important;
-}
-
-.cl-internal-b3fm6y {
-  display: none !important;
-}
-
 /* Notification Bell Animations */
 @keyframes steam-1 {
   0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.6; }
