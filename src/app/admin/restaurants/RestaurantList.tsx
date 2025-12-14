@@ -328,7 +328,7 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
                       </Link>
                       
                       <Link
-                          href={`/admin/preview/${restaurant.id}`}
+                          href={`/admin/restaurants/${restaurant.id}/menu`}
                           className="px-3 py-1.5 text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors border border-orange-200"
                       >
                           Edit

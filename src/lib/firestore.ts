@@ -435,6 +435,15 @@ export async function saveDraftMenuToFirestore(restaurantId: string, items: Menu
   });
 }
 
+// Save menu directly (for admin edits - saves to live menu)
+export async function saveMenuToFirestore(restaurantId: string, items: MenuItem[]): Promise<void> {
+  const db = getFirestore();
+  await db.collection('menus').doc(restaurantId).set({ 
+    items,
+    updatedAt: admin.firestore.FieldValue.serverTimestamp()
+  });
+}
+
 // Publish menu (copy draft to live)
 export async function publishMenuToFirestore(restaurantId: string): Promise<void> {
   const db = getFirestore();
