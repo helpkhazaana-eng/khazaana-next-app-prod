@@ -10,8 +10,22 @@ function initializeFirebaseAdmin() {
   // These should be set in Vercel dashboard for production
   const projectId = process.env.FIREBASE_PROJECT_ID;
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
   const databaseId = process.env.FIREBASE_DATABASE_ID || '(default)';
+  
+  // Handle private key - Vercel may store it with literal \n or actual newlines
+  // Also handle if it's wrapped in quotes
+  let privateKey = process.env.FIREBASE_PRIVATE_KEY || '';
+  
+  // Remove surrounding quotes if present
+  if (privateKey.startsWith('"') && privateKey.endsWith('"')) {
+    privateKey = privateKey.slice(1, -1);
+  }
+  if (privateKey.startsWith("'") && privateKey.endsWith("'")) {
+    privateKey = privateKey.slice(1, -1);
+  }
+  
+  // Replace literal \n with actual newlines
+  privateKey = privateKey.replace(/\\n/g, '\n');
 
   if (!projectId || !clientEmail || !privateKey) {
     console.error('Firebase Admin SDK: Missing environment variables');
@@ -27,7 +41,6 @@ function initializeFirebaseAdmin() {
         privateKey,
       }),
       projectId,
-      databaseId, // Explicitly specify database ID
     });
   } catch (error) {
     console.error('Failed to initialize Firebase Admin:', error);

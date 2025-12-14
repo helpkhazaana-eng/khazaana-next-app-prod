@@ -1,63 +1,31 @@
 'use client';
 
-import { useState } from 'react';
-import { useSignIn } from '@clerk/nextjs';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Spotlight } from '@/components/ui/spotlight';
-import { ChefHat, Loader2, Eye, EyeOff, AlertCircle, ShieldCheck } from 'lucide-react';
+import { ChefHat, Loader2, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
+import { useAdminAuth } from '@/contexts/AdminAuthContext';
 
 export default function SignInPage() {
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { signIn, isAuthenticated, loading: authLoading } = useAdminAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [needsMFA, setNeedsMFA] = useState(false);
-  const [mfaCode, setMfaCode] = useState('');
-  const [mfaType, setMfaType] = useState<'totp' | 'email_code'>('totp');
   const router = useRouter();
 
-  // Handle MFA verification
-  const handleMFASubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isLoaded || !signIn) return;
-
-    if (!mfaCode || mfaCode.length < 6) {
-      setError('Please enter a valid 6-digit code');
-      return;
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push('/admin');
     }
-
-    setLoading(true);
-    setError('');
-
-    try {
-      const result = await signIn.attemptSecondFactor({
-        strategy: mfaType,
-        code: mfaCode,
-      });
-
-      if (result.status === 'complete') {
-        await setActive({ session: result.createdSessionId });
-        router.push('/admin');
-      } else {
-        console.error('MFA verification status:', result.status);
-        setError('Verification failed. Please try again.');
-      }
-    } catch (err: any) {
-      console.error('MFA error:', err);
-      const msg = err.errors?.[0]?.message || 'Invalid verification code';
-      setError(msg);
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [isAuthenticated, authLoading, router]);
 
   // Handle the sign-in process
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded) return;
 
     if (!email || !password) {
       setError('Please enter both email and password');
@@ -67,50 +35,15 @@ export default function SignInPage() {
     setLoading(true);
     setError('');
 
-    try {
-      const result = await signIn.create({
-        identifier: email,
-        password,
-      });
-
-      if (result.status === 'complete') {
-        await setActive({ session: result.createdSessionId });
-        router.push('/admin');
-      } else if (result.status === 'needs_second_factor') {
-        // Check available strategies
-        const secondFactors = result.supportedSecondFactors || [];
-        const hasTOTP = secondFactors.some((f: any) => f.strategy === 'totp');
-        const hasPhoneCode = secondFactors.some((f: any) => f.strategy === 'phone_code');
-        const hasBackupCode = secondFactors.some((f: any) => f.strategy === 'backup_code');
-
-        // TOTP (Authenticator app) - no preparation needed, just show input
-        if (hasTOTP) {
-          setMfaType('totp');
-          setNeedsMFA(true);
-          setError('');
-        } else if (hasPhoneCode || hasBackupCode) {
-          // For other strategies, show a helpful message
-          setError('Please use your authenticator app or backup codes. Contact admin if you need help.');
-        } else {
-          // No MFA configured but Clerk is requiring it - this is a configuration issue
-          console.error('MFA required but no supported methods found:', secondFactors);
-          setError('Two-factor authentication is required but not configured. Please contact the administrator to disable 2FA in Clerk dashboard, or set up an authenticator app.');
-        }
-      } else if (result.status === 'needs_first_factor') {
-        // This shouldn't happen with email/password, but handle it
-        console.error('Needs first factor:', result);
-        setError('Additional verification required. Please try again or contact support.');
-      } else {
-        console.error('Sign in status:', result.status);
-        setError('Unexpected sign-in status. Please contact support.');
-      }
-    } catch (err: any) {
-      console.error('Sign in error:', err);
-      const msg = err.errors?.[0]?.message || 'Invalid email or password';
-      setError(msg);
-    } finally {
-      setLoading(false);
+    const result = await signIn(email, password);
+    
+    if (result.success) {
+      router.push('/admin');
+    } else {
+      setError(result.error || 'Sign in failed');
     }
+    
+    setLoading(false);
   };
 
   return (
@@ -167,71 +100,7 @@ export default function SignInPage() {
                   )}
                 </AnimatePresence>
 
-                {needsMFA ? (
-                  /* MFA Verification Form */
-                  <form onSubmit={handleMFASubmit} className="space-y-5">
-                    <div className="text-center mb-4">
-                      <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto mb-3">
-                        <ShieldCheck className="w-6 h-6 text-orange-500" />
-                      </div>
-                      <h2 className="text-lg font-semibold text-white mb-1">
-                        {mfaType === 'email_code' ? 'Email Verification' : 'Two-Factor Authentication'}
-                      </h2>
-                      <p className="text-xs text-neutral-400">
-                        {mfaType === 'email_code' 
-                          ? `Enter the 6-digit code sent to ${email}`
-                          : 'Enter the 6-digit code from your authenticator app'}
-                      </p>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label className="text-neutral-300 text-[11px] font-semibold uppercase tracking-wider ml-0.5">
-                        Verification Code
-                      </label>
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        pattern="[0-9]*"
-                        maxLength={6}
-                        value={mfaCode}
-                        onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ''))}
-                        className="w-full h-11 bg-neutral-950 border border-neutral-800 text-white placeholder:text-neutral-600 focus:border-orange-500/50 focus:ring-4 focus:ring-orange-500/10 rounded-lg px-4 transition-all duration-200 text-sm outline-none text-center tracking-[0.5em] font-mono"
-                        placeholder="000000"
-                        disabled={loading}
-                        autoFocus
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={loading || !isLoaded || mfaCode.length < 6}
-                      className="h-11 w-full bg-white text-neutral-950 hover:bg-neutral-200 shadow-lg shadow-white/5 text-sm font-bold rounded-lg transition-all duration-200 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          Verifying...
-                        </>
-                      ) : (
-                        'Verify & Sign In'
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setNeedsMFA(false);
-                        setMfaCode('');
-                        setError('');
-                      }}
-                      className="w-full text-xs text-neutral-500 hover:text-white transition-colors"
-                    >
-                      ← Back to login
-                    </button>
-                  </form>
-                ) : (
-                  /* Email/Password Form */
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="space-y-1.5">
                       <label className="text-neutral-300 text-[11px] font-semibold uppercase tracking-wider ml-0.5">
                         Email Address
@@ -272,7 +141,7 @@ export default function SignInPage() {
 
                     <button
                       type="submit"
-                      disabled={loading || !isLoaded}
+                      disabled={loading}
                       className="h-11 w-full bg-white text-neutral-950 hover:bg-neutral-200 shadow-lg shadow-white/5 text-sm font-bold rounded-lg transition-all duration-200 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
                     >
                       {loading ? (
@@ -285,7 +154,6 @@ export default function SignInPage() {
                       )}
                     </button>
                   </form>
-                )}
             </div>
         </m.div>
         

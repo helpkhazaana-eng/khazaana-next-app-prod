@@ -60,7 +60,7 @@ export default function LanguagePrompt({ className = '' }: LanguagePromptProps) 
   return (
     <div 
       className={cn(
-        "fixed bottom-6 right-6 z-50",
+        "fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50",
         "transition-all duration-300 ease-out",
         isAnimating ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
         className

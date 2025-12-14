@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import AppInit from "@/components/common/AppInit";
 import FramerProvider from "@/components/common/FramerProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import { generateMetaKeywords, generateLocalBusinessSchema } from "@/lib/seo";
 import "./globals.css";
-
-const clerkPubKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -99,19 +97,17 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
-        <LanguageProvider>
-          <FramerProvider>
-            <AppInit />
-            {children}
-          </FramerProvider>
-        </LanguageProvider>
+        <AdminAuthProvider>
+          <LanguageProvider>
+            <FramerProvider>
+              <AppInit />
+              {children}
+            </FramerProvider>
+          </LanguageProvider>
+        </AdminAuthProvider>
       </body>
     </html>
   );
-
-  if (clerkPubKey) {
-    return <ClerkProvider>{content}</ClerkProvider>;
-  }
 
   return content;
 }
