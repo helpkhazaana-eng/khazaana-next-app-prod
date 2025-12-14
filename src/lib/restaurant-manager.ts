@@ -18,7 +18,8 @@ import {
   toggleRestaurantOpenFirestore,
   setRestaurantOpenStatusFirestore,
   checkPriorityConflictFirestore,
-  saveRestaurant
+  saveRestaurant,
+  getArchivedRestaurantIds
 } from './firestore';
 
 // Get all draft restaurants
@@ -36,8 +37,13 @@ export async function getAllRestaurants(includeHidden = false): Promise<Restaura
   const dynamic = await getLiveDynamicRestaurants();
   const dynamicIds = new Set(dynamic.map(r => r.id));
   
-  // Static restaurants that haven't been overridden by dynamic ones
-  const activeStatic = staticRestaurants.filter(r => !dynamicIds.has(r.id));
+  // Also get archived/deleted restaurant IDs to exclude static restaurants that have been archived
+  const archivedIds = await getArchivedRestaurantIds();
+  
+  // Static restaurants that haven't been overridden by dynamic ones AND are not archived/deleted
+  const activeStatic = staticRestaurants.filter(r => 
+    !dynamicIds.has(r.id) && !archivedIds.has(r.id)
+  );
   
   // Combine
   const all = [...activeStatic, ...dynamic];

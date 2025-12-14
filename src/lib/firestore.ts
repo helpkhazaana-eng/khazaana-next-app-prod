@@ -115,6 +115,21 @@ export async function getLiveRestaurants(): Promise<Restaurant[]> {
   }
 }
 
+// Get IDs of archived and deleted restaurants (to exclude static restaurants)
+export async function getArchivedRestaurantIds(): Promise<Set<string>> {
+  try {
+    const db = getFirestore();
+    const snapshot = await db.collection('restaurants')
+      .where('adminStatus', 'in', ['archived', 'deleted'])
+      .get();
+    
+    return new Set(snapshot.docs.map(doc => doc.id));
+  } catch (error) {
+    console.error('Error getting archived restaurant IDs:', error);
+    return new Set();
+  }
+}
+
 // Get ALL restaurants (for admin view)
 export async function getAllRestaurantsFromFirestore(includeHidden = false): Promise<Restaurant[]> {
   try {
