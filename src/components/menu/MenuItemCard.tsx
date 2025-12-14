@@ -44,11 +44,24 @@ export default function MenuItemCard({
   const [closeHour, closeMin] = closesAt.split(':').map(Number);
   const openTime = openHour * 60 + openMin;
   const closeTime = closeHour * 60 + closeMin;
-  
   const isTimeOpen = currentMinutes >= openTime && currentMinutes < closeTime;
   
-  // Restaurant is open only if: admin hasn't closed it AND within operating hours
-  const isOpen = restaurantIsOpen && isTimeOpen;
+  // Determine if restaurant is open for ordering:
+  // - If admin explicitly set isOpen=true → OPEN (override time)
+  // - If admin explicitly set isOpen=false → CLOSED (override time)
+  // - If isOpen is undefined (default) → follow time-based rules
+  let isOpen: boolean;
+  
+  if (restaurantIsOpen === true) {
+    // Admin explicitly opened - override time restrictions
+    isOpen = true;
+  } else if (restaurantIsOpen === false) {
+    // Admin explicitly closed
+    isOpen = false;
+  } else {
+    // Default: follow time-based rules
+    isOpen = isTimeOpen;
+  }
 
   // Sync quantity with cart from localStorage on mount and updates
   useEffect(() => {

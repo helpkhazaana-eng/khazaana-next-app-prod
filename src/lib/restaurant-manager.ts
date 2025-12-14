@@ -16,6 +16,7 @@ import {
   updateRestaurantStatusFirestore,
   updateRestaurantPriorityFirestore,
   toggleRestaurantOpenFirestore,
+  setRestaurantOpenStatusFirestore,
   checkPriorityConflictFirestore,
   saveRestaurant
 } from './firestore';
@@ -109,4 +110,13 @@ export async function toggleRestaurantOpen(
   isOpen: boolean
 ): Promise<Restaurant> {
   return toggleRestaurantOpenFirestore(restaurantId, isOpen);
+}
+
+// Set restaurant open status with 3 options: 'open', 'closed', 'default'
+// 'open' = always open (override time), 'closed' = always closed, 'default' = follow 9AM-9PM
+export async function setRestaurantOpenStatus(
+  restaurantId: string,
+  status: 'open' | 'closed' | 'default'
+): Promise<Restaurant> {
+  return setRestaurantOpenStatusFirestore(restaurantId, status);
 }

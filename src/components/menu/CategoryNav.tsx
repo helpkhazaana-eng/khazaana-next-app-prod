@@ -23,9 +23,9 @@ export default function CategoryNav({ categories }: CategoryNavProps) {
             <a 
               key={category}
               href={`#category-${category.replace(/\s+/g, '-').toLowerCase()}`}
-              className="category-tab shrink-0 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-sm font-bold text-slate-700 whitespace-nowrap transition-all hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500/20 active:scale-95 shadow-sm"
+              className="category-tab shrink-0 px-5 py-2.5 bg-slate-50 border border-slate-200 rounded-full text-sm font-bold text-slate-700 whitespace-nowrap transition-all hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50/80 focus:outline-none focus:ring-2 focus:ring-orange-500/20 active:scale-95 shadow-sm"
             >
-              {displayCategory}
+              {displayCategory || category}
             </a>
           );
         })}

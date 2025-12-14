@@ -313,14 +313,37 @@ export async function updateRestaurantPriorityFirestore(
   return { ...restaurant, priority: priority === null ? undefined : priority };
 }
 
-// Toggle restaurant open/close
+// Toggle restaurant open/close (legacy - use setRestaurantOpenStatusFirestore instead)
 export async function toggleRestaurantOpenFirestore(
   restaurantId: string, 
   isOpen: boolean
 ): Promise<Restaurant> {
+  // Convert boolean to status
+  return setRestaurantOpenStatusFirestore(restaurantId, isOpen ? 'open' : 'closed');
+}
+
+// Set restaurant open status with 3 options
+// 'open' = always open (override time restrictions)
+// 'closed' = always closed
+// 'default' = follow time-based rules (9 AM - 9 PM)
+export async function setRestaurantOpenStatusFirestore(
+  restaurantId: string,
+  status: 'open' | 'closed' | 'default'
+): Promise<Restaurant> {
   const db = getFirestore();
   const docRef = db.collection('restaurants').doc(restaurantId);
   const doc = await docRef.get();
+  
+  // Convert status to isOpen value for storage
+  // 'open' -> true, 'closed' -> false, 'default' -> undefined (delete field)
+  let isOpenValue: boolean | undefined;
+  if (status === 'open') {
+    isOpenValue = true;
+  } else if (status === 'closed') {
+    isOpenValue = false;
+  } else {
+    isOpenValue = undefined; // Will delete the field
+  }
   
   if (!doc.exists) {
     // Restaurant doesn't exist in Firestore - check static restaurants and create it
@@ -331,17 +354,27 @@ export async function toggleRestaurantOpenFirestore(
       throw new Error('Restaurant not found');
     }
     
-    // Create the restaurant in Firestore with the isOpen status
+    // Create the restaurant in Firestore with the status
     const { id, ...data } = staticRestaurant;
-    await docRef.set({ ...data, isOpen, adminStatus: 'live' });
+    const saveData: any = { ...data, adminStatus: 'live' };
+    if (isOpenValue !== undefined) {
+      saveData.isOpen = isOpenValue;
+    }
+    await docRef.set(saveData);
     
-    return { ...staticRestaurant, isOpen };
+    return { ...staticRestaurant, isOpen: isOpenValue };
   }
   
-  await docRef.update({ isOpen });
+  // Update existing restaurant
+  if (isOpenValue === undefined) {
+    // Delete the isOpen field to use default time-based behavior
+    await docRef.update({ isOpen: admin.firestore.FieldValue.delete() });
+  } else {
+    await docRef.update({ isOpen: isOpenValue });
+  }
   
   const restaurant = { id: doc.id, ...doc.data() } as Restaurant;
-  return { ...restaurant, isOpen };
+  return { ...restaurant, isOpen: isOpenValue };
 }
 
 // ============================================================

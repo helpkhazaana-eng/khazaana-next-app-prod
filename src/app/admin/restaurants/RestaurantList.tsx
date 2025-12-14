@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { MoreHorizontal, Edit, Trash2, Archive, PlayCircle, Eye, AlertCircle, Save, X, Search, ChevronLeft, ChevronRight, Power, PowerOff } from 'lucide-react';
+import { MoreHorizontal, Edit, Trash2, Archive, PlayCircle, Eye, AlertCircle, Save, X, Search, ChevronLeft, ChevronRight, Power, PowerOff, Clock } from 'lucide-react';
 import { updateRestaurantStatus } from '@/app/actions/update-restaurant-status';
 import { updateRestaurantPriority } from '@/app/actions/update-restaurant-priority';
-import { toggleRestaurantOpenAction } from '@/app/actions/restaurant';
+import { setRestaurantOpenStatusAction, type RestaurantOpenStatus } from '@/app/actions/restaurant';
 import { deleteRestaurant } from '@/app/actions/delete-restaurant';
 import type { Restaurant } from '@/types';
 import Link from 'next/link';
@@ -288,21 +288,21 @@ export default function RestaurantList({ restaurants }: RestaurantListProps) {
                     <StatusBadge status={restaurant.adminStatus || 'live'} />
                   </td>
                   <td className="px-6 py-4">
-                    <OpenCloseToggle 
+                    <StatusSelector 
                       restaurantId={restaurant.id} 
-                      isOpen={restaurant.isOpen !== false} 
+                      currentStatus={restaurant.isOpen === true ? 'open' : restaurant.isOpen === false ? 'closed' : 'default'}
                       loading={loadingId === restaurant.id}
-                      onToggle={async (id, open) => {
+                      onStatusChange={async (id, status) => {
                         setLoadingId(id);
                         try {
-                          const res = await toggleRestaurantOpenAction(id, open);
+                          const res = await setRestaurantOpenStatusAction(id, status);
                           if (res.success) {
-                            showModal('success', 'Status Updated', res.message || `Restaurant is now ${open ? 'OPEN' : 'CLOSED'}`);
+                            showModal('success', 'Status Updated', res.message || `Restaurant status updated`);
                           } else {
-                            showModal('error', 'Update Failed', res.message || 'Failed to toggle status');
+                            showModal('error', 'Update Failed', res.message || 'Failed to update status');
                           }
                         } catch (e) {
-                          showModal('error', 'Error', 'Failed to toggle status');
+                          showModal('error', 'Error', 'Failed to update status');
                         } finally {
                           setLoadingId(null);
                         }
@@ -477,38 +477,35 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-function OpenCloseToggle({ 
+function StatusSelector({ 
   restaurantId, 
-  isOpen, 
+  currentStatus, 
   loading, 
-  onToggle 
+  onStatusChange 
 }: { 
   restaurantId: string; 
-  isOpen: boolean; 
+  currentStatus: RestaurantOpenStatus;
   loading: boolean;
-  onToggle: (id: string, open: boolean) => void;
+  onStatusChange: (id: string, status: RestaurantOpenStatus) => void;
 }) {
+  const statusConfig = {
+    open: { label: 'Open', color: 'bg-green-50 text-green-700 border-green-200', icon: Power },
+    closed: { label: 'Closed', color: 'bg-red-50 text-red-700 border-red-200', icon: PowerOff },
+    default: { label: 'Default', color: 'bg-blue-50 text-blue-700 border-blue-200', icon: Clock }
+  };
+
   return (
-    <button
-      onClick={() => onToggle(restaurantId, !isOpen)}
+    <select
+      value={currentStatus}
+      onChange={(e) => onStatusChange(restaurantId, e.target.value as RestaurantOpenStatus)}
       disabled={loading}
-      className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
-        isOpen
-          ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
-          : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border cursor-pointer ${
+        statusConfig[currentStatus].color
       } ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
     >
-      {isOpen ? (
-        <>
-          <Power className="w-3.5 h-3.5" />
-          Open
-        </>
-      ) : (
-        <>
-          <PowerOff className="w-3.5 h-3.5" />
-          Closed
-        </>
-      )}
-    </button>
+      <option value="open">🟢 Open</option>
+      <option value="closed">🔴 Closed</option>
+      <option value="default">🔵 Default (9AM-9PM)</option>
+    </select>
   );
 }
