@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LayoutDashboard, Upload, FileText, LogOut, Store, ChefHat, BarChart, StickyNote, Loader2 } from 'lucide-react';
-import { useAdminAuth } from '@/contexts/AdminAuthContext';
+import { AdminAuthProvider, useAdminAuth } from '@/contexts/AdminAuthContext';
 
-export default function AdminLayoutClient({
+function AdminLayoutInner({
   children,
 }: {
   children: React.ReactNode;
@@ -216,5 +216,17 @@ export default function AdminLayoutClient({
         </main>
       </div>
     </div>
+  );
+}
+
+export default function AdminLayoutClient({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <AdminAuthProvider>
+      <AdminLayoutInner>{children}</AdminLayoutInner>
+    </AdminAuthProvider>
   );
 }

@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { Spotlight } from '@/components/ui/spotlight';
 import { ChefHat, Loader2, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
-import { useAdminAuth } from '@/contexts/AdminAuthContext';
+import { AdminAuthProvider, useAdminAuth } from '@/contexts/AdminAuthContext';
 
-export default function SignInPage() {
+function SignInPageInner() {
   const { signIn, isAuthenticated, loading: authLoading } = useAdminAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -176,5 +176,13 @@ export default function SignInPage() {
         </m.div>
       </div>
     </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <AdminAuthProvider>
+      <SignInPageInner />
+    </AdminAuthProvider>
   );
 }

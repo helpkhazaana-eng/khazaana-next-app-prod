@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import AppInit from "@/components/common/AppInit";
 import FramerProvider from "@/components/common/FramerProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import { generateMetaKeywords, generateLocalBusinessSchema } from "@/lib/seo";
 import "./globals.css";
 
@@ -97,14 +96,12 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
-        <AdminAuthProvider>
-          <LanguageProvider>
-            <FramerProvider>
-              <AppInit />
-              {children}
-            </FramerProvider>
-          </LanguageProvider>
-        </AdminAuthProvider>
+        <LanguageProvider>
+          <FramerProvider>
+            <AppInit />
+            {children}
+          </FramerProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

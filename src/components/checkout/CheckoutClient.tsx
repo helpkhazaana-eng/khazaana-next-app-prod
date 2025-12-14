@@ -463,12 +463,13 @@ export default function CheckoutClient({ restaurantOpenStatus = {}, globalOverri
             type="submit"
             disabled={submitting || !meetsMinimum || !isOpen}
             className={cn(
-                "btn-primary w-full py-4 text-base shadow-lg shadow-orange-200",
+                "w-full py-4 text-base font-semibold rounded-xl transition-all duration-200 flex items-center justify-center gap-2",
+                "bg-orange-500 hover:bg-orange-600 text-white shadow-lg shadow-orange-200",
                 (submitting || !meetsMinimum || !isOpen) && 'opacity-50 cursor-not-allowed grayscale'
             )}
           >
             {submitting ? 'Processing...' : 'Place Order via WhatsApp'}
-            {!submitting && <MessageCircle className="inline w-5 h-5 ml-2" />}
+            {!submitting && <MessageCircle className="w-5 h-5" />}
           </button>
         </form>
       </div>
