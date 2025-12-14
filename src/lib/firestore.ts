@@ -421,8 +421,8 @@ export async function publishMenuToFirestore(restaurantId: string): Promise<void
     updatedAt: admin.firestore.FieldValue.serverTimestamp()
   });
   
-  // Optionally delete draft
-  // await db.collection('menus').doc(`${restaurantId}_draft`).delete();
+  // Delete draft after publishing
+  await db.collection('menus').doc(`${restaurantId}_draft`).delete();
 }
 
 // ============================================================

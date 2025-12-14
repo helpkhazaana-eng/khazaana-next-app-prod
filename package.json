@@ -7,9 +7,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "typecheck": "tsc --noEmit",
     "validate": "node scripts/validate-menus.js",
     "prebuild": "node scripts/validate-menus.js",
+    "check": "npm run validate && npm run build",
+    "predeploy": "npm run check",
     "migrate:firestore": "npx tsx scripts/migrate-to-firestore.ts"
   },
   "dependencies": {

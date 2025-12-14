@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import AppInit from "@/components/common/AppInit";
 import FramerProvider from "@/components/common/FramerProvider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { ToastProvider } from "@/components/ui/Toast";
 import { generateMetaKeywords, generateLocalBusinessSchema } from "@/lib/seo";
 import "./globals.css";
 
@@ -85,8 +86,16 @@ export default function RootLayout({
   const content = (
     <html lang="en">
       <head>
+        {/* Preconnect to external origins for faster loading */}
+        <link rel="preconnect" href="https://firestore.googleapis.com" />
+        <link rel="preconnect" href="https://www.googleapis.com" />
+        <link rel="preconnect" href="https://cloud.umami.is" />
+        <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+        <link rel="dns-prefetch" href="https://www.googleapis.com" />
+        
+        {/* Analytics - load async to not block rendering */}
         <script
-          defer
+          async
           src="https://cloud.umami.is/script.js"
           data-website-id="65f79836-7e67-4637-ac7d-fce6b4f15e52"
         />
@@ -97,10 +106,12 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
         <LanguageProvider>
-          <FramerProvider>
-            <AppInit />
-            {children}
-          </FramerProvider>
+          <ToastProvider>
+            <FramerProvider>
+              <AppInit />
+              {children}
+            </FramerProvider>
+          </ToastProvider>
         </LanguageProvider>
       </body>
     </html>

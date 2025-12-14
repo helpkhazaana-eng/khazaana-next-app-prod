@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, X, ArrowLeft, AlertTriangle } from 'lucide-react';
+import { Check, X, ArrowLeft, AlertTriangle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { publishMenu, discardDraft } from '@/app/actions/publish-menu';
 import { publishRestaurant } from '@/app/actions/publish-restaurant';
+import { deleteRestaurant } from '@/app/actions/delete-restaurant';
+import Modal from '@/components/ui/Modal';
 import type { MenuItem, Restaurant } from '@/types';
 
 interface PreviewProps {
@@ -17,45 +19,77 @@ interface PreviewProps {
 export default function DraftPreview({ restaurant, draftItems, liveItems }: PreviewProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    variant: 'success' | 'error' | 'confirm' | 'warning';
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+  }>({ isOpen: false, variant: 'success', title: '', message: '' });
+
+  const showModal = (variant: typeof modal.variant, title: string, message: string, onConfirm?: () => void) => {
+    setModal({ isOpen: true, variant, title, message, onConfirm });
+  };
+
+  const closeModal = () => {
+    setModal(prev => ({ ...prev, isOpen: false }));
+  };
 
   const handlePublish = async () => {
-    if (!confirm('Are you sure you want to publish this menu live?')) return;
-    
-    setLoading(true);
-    
-    // Check if this is a new restaurant (exists in drafts but might not be fully live yet)
-    // We can assume if liveItems is empty, it might be a new restaurant, or just a menu update.
-    // For safety, we'll try to publish the restaurant metadata first if it's dynamic.
-    
-    // First try to publish restaurant metadata (if it's a new dynamic restaurant)
-    const resRes = await publishRestaurant(restaurant.id);
-    
-    // Then publish menu
-    const resMenu = await publishMenu(restaurant.id);
-    
-    if (resRes.success || resMenu.success) {
-      alert('Published successfully!');
-      router.push('/admin');
-      router.refresh();
-    } else {
-      alert(`Failed: ${resRes.message} | ${resMenu.message}`);
-      setLoading(false);
-    }
+    showModal('confirm', 'Publish Restaurant?', 'This will make the restaurant and menu visible to all customers.', async () => {
+      closeModal();
+      setLoading(true);
+      
+      // First try to publish restaurant metadata (if it's a new dynamic restaurant)
+      const resRes = await publishRestaurant(restaurant.id);
+      
+      // Then publish menu
+      const resMenu = await publishMenu(restaurant.id);
+      
+      if (resRes.success || resMenu.success) {
+        showModal('success', 'Published Successfully!', 'The restaurant is now live and visible to customers.', () => {
+          router.push('/admin');
+          router.refresh();
+        });
+      } else {
+        showModal('error', 'Publish Failed', `${resRes.message} | ${resMenu.message}`);
+        setLoading(false);
+      }
+    });
   };
 
   const handleDiscard = async () => {
-    if (!confirm('Are you sure you want to discard this draft? This action cannot be undone.')) return;
+    showModal('warning', 'Discard Draft?', 'This will permanently delete the draft. This action cannot be undone.', async () => {
+      closeModal();
+      setLoading(true);
+      const res = await discardDraft(restaurant.id);
+      if (res.success) {
+        showModal('success', 'Draft Discarded', res.message, () => {
+          router.push('/admin');
+          router.refresh();
+        });
+      } else {
+        showModal('error', 'Failed', res.message);
+        setLoading(false);
+      }
+    });
+  };
 
-    setLoading(true);
-    const res = await discardDraft(restaurant.id);
-    if (res.success) {
-      alert(res.message);
-      router.push('/admin');
-      router.refresh();
-    } else {
-      alert(res.message);
-      setLoading(false);
-    }
+  const handleDelete = async () => {
+    showModal('confirm', 'Delete Restaurant Permanently?', 'This will permanently delete the restaurant and all its menu data. This action cannot be undone.', async () => {
+      closeModal();
+      setLoading(true);
+      const res = await deleteRestaurant(restaurant.id);
+      if (res.success) {
+        showModal('success', 'Restaurant Deleted', res.message, () => {
+          router.push('/admin');
+          router.refresh();
+        });
+      } else {
+        showModal('error', 'Delete Failed', res.message);
+        setLoading(false);
+      }
+    });
   };
 
   // Simple stats
@@ -79,6 +113,14 @@ export default function DraftPreview({ restaurant, draftItems, liveItems }: Prev
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={handleDelete}
+            disabled={loading}
+            className="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl font-bold transition-colors disabled:opacity-50 flex items-center gap-2"
+            title="Delete Restaurant Permanently"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
           <button
             onClick={handleDiscard}
             disabled={loading}
@@ -161,6 +203,18 @@ export default function DraftPreview({ restaurant, draftItems, liveItems }: Prev
             </table>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={closeModal}
+        title={modal.title}
+        message={modal.message}
+        variant={modal.variant}
+        onConfirm={modal.onConfirm}
+        confirmText={modal.variant === 'confirm' ? 'Yes, Continue' : 'OK'}
+        loading={loading}
+      />
     </div>
   );
 }

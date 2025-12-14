@@ -3,14 +3,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload, X, Plus, AlertCircle, CheckCircle2 } from 'lucide-react';
-
+import Modal from '@/components/ui/Modal';
 import { createRestaurant } from '@/app/actions/create-restaurant';
 
 export default function NewRestaurantPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    variant: 'success' | 'error';
+    title: string;
+    message: string;
+  }>({ isOpen: false, variant: 'success', title: '', message: '' });
   
   // Form State
   const [formData, setFormData] = useState({
@@ -64,10 +69,12 @@ export default function NewRestaurantPage() {
         throw new Error(result.message || 'Failed to create restaurant');
       }
 
-      setSuccess(true);
-      setTimeout(() => {
-        router.push('/admin');
-      }, 2000);
+      setModal({
+        isOpen: true,
+        variant: 'success',
+        title: 'Restaurant Created!',
+        message: 'The restaurant has been created successfully. Go to Dashboard to review and publish it.',
+      });
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -90,12 +97,6 @@ export default function NewRestaurantPage() {
           </div>
         )}
 
-        {success && (
-          <div className="mb-6 p-4 bg-green-50 border border-green-100 rounded-xl text-green-600 flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 shrink-0" />
-            <p className="text-sm font-medium">Restaurant created successfully! Redirecting...</p>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Info */}
@@ -259,6 +260,20 @@ export default function NewRestaurantPage() {
           </div>
         </form>
       </div>
+
+      {/* Success Modal */}
+      <Modal
+        isOpen={modal.isOpen}
+        onClose={() => {
+          setModal(prev => ({ ...prev, isOpen: false }));
+          router.push('/admin');
+          router.refresh();
+        }}
+        title={modal.title}
+        message={modal.message}
+        variant={modal.variant}
+        confirmText="Go to Dashboard"
+      />
     </div>
   );
 }

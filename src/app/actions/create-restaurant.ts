@@ -5,6 +5,7 @@ import { uploadMenuCSV } from './upload-menu';
 import type { Restaurant } from '@/types';
 import { RESTAURANT_TIMINGS, RESTAURANT_PRICING, KHAZAANA_CONTACT } from '@/data/restaurants';
 import { requireAdmin } from '@/lib/auth';
+import { revalidatePath } from 'next/cache';
 
 export async function createRestaurant(formData: FormData) {
   try {
@@ -68,6 +69,10 @@ export async function createRestaurant(formData: FormData) {
     if (!uploadResult.success) {
       return { success: false, message: `Restaurant created but menu upload failed: ${uploadResult.message}` };
     }
+
+    // Revalidate admin dashboard to show new draft
+    revalidatePath('/admin');
+    revalidatePath('/admin/restaurants');
 
     return { 
       success: true, 
