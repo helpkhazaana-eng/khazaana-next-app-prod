@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { getClientFirestore } from '@/lib/firebase';
+import { useState, useEffect, useRef } from 'react';
 
 export interface RealtimeDashboardStats {
   totalOrders: number;
@@ -27,6 +26,43 @@ const DEFAULT_STATS: RealtimeDashboardStats = {
   todayRevenue: 0,
 };
 
+// Cache Firebase modules to avoid repeated dynamic imports
+let firestoreModuleCache: typeof import('firebase/firestore') | null = null;
+let appModuleCache: typeof import('firebase/app') | null = null;
+
+async function getFirestoreWithListener() {
+  // Import both modules in parallel for speed
+  const [appModule, firestoreModule] = await Promise.all([
+    appModuleCache ? Promise.resolve(appModuleCache) : import('firebase/app'),
+    firestoreModuleCache ? Promise.resolve(firestoreModuleCache) : import('firebase/firestore'),
+  ]);
+  
+  // Cache for future calls
+  appModuleCache = appModule;
+  firestoreModuleCache = firestoreModule;
+  
+  const { initializeApp, getApps } = appModule;
+  const { getFirestore, collection, onSnapshot, query, orderBy } = firestoreModule;
+  
+  // Initialize app if needed
+  let app;
+  if (!getApps().length) {
+    app = initializeApp({
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: `${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.appspot.com`,
+      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    });
+  } else {
+    app = getApps()[0];
+  }
+  
+  const firestore = getFirestore(app);
+  return { firestore, collection, onSnapshot, query, orderBy };
+}
+
 /**
  * Hook to listen to orders collection in real-time for admin dashboard
  * Updates automatically when new orders come in or status changes
@@ -36,20 +72,23 @@ export function useRealtimeDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const setupStarted = useRef(false);
 
   useEffect(() => {
+    // Prevent double setup in strict mode
+    if (setupStarted.current) return;
+    setupStarted.current = true;
+    
     let unsubscribe: (() => void) | undefined;
 
     const setupListener = async () => {
       try {
-        const firestore = await getClientFirestore();
-        if (!firestore) {
-          setError('Firestore not available');
+        if (typeof window === 'undefined') {
           setLoading(false);
           return;
         }
 
-        const { collection, onSnapshot, query, orderBy } = await import('firebase/firestore');
+        const { firestore, collection, onSnapshot, query, orderBy } = await getFirestoreWithListener();
         const ordersRef = collection(firestore, 'orders');
         const q = query(ordersRef, orderBy('orderTime', 'desc'));
 
