@@ -5,9 +5,7 @@ import { getAllRestaurants, getDraftRestaurants } from '@/lib/restaurant-manager
 import { hasDraft } from '@/lib/data-access';
 import { getSystemConfig } from '@/lib/system-config';
 import SystemControls from '@/components/admin/SystemControls';
-import DashboardStats from '@/components/admin/DashboardStats';
-import StatsSkeleton from '@/components/admin/StatsSkeleton';
-import { Suspense } from 'react';
+import RealtimeDashboardStats from '@/components/admin/RealtimeDashboardStats';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,14 +48,12 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      {/* Stats Grid with Suspense */}
-      <Suspense fallback={<StatsSkeleton />}>
-        <DashboardStats 
-          totalRestaurants={totalRestaurants}
-          newDraftRestaurantsCount={newDraftRestaurants.length}
-          pendingCount={pendingCount}
-        />
-      </Suspense>
+      {/* Stats Grid - Real-time with Firestore */}
+      <RealtimeDashboardStats 
+        totalRestaurants={totalRestaurants}
+        newDraftRestaurantsCount={newDraftRestaurants.length}
+        pendingCount={pendingCount}
+      />
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

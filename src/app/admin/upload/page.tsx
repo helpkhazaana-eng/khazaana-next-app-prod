@@ -1,15 +1,48 @@
 'use client';
 
 import { useState } from 'react';
-import { Upload, CheckCircle, AlertCircle, FileText, Loader2 } from 'lucide-react';
+import { Upload, CheckCircle, AlertCircle, FileText, Loader2, Download, Copy, Sparkles } from 'lucide-react';
 import { restaurants } from '@/data/restaurants';
 import { uploadMenuCSV } from '@/app/actions/upload-menu';
+
+const LLM_PROMPT = `You are a menu data extraction assistant. I will provide you with a restaurant menu (image, PDF, or text). Extract all menu items and convert them into a CSV format with these exact headers:
+
+Item Name,Price (₹),Category,Veg/Non-Veg,Description
+
+Rules:
+1. "Item Name" - The name of the dish exactly as shown
+2. "Price (₹)" - Just the number, no currency symbols (e.g., 250 not ₹250)
+3. "Category" - Group items logically (e.g., Starters, Main Course, Beverages, Desserts, etc.)
+4. "Veg/Non-Veg" - Must be exactly "Veg" or "Non-Veg" based on ingredients
+5. "Description" - Brief description if available, otherwise leave empty
+
+Output ONLY the CSV data, starting with the header row. No explanations or markdown formatting.
+
+Example output:
+Item Name,Price (₹),Category,Veg/Non-Veg,Description
+Butter Chicken,280,Main Course,Non-Veg,Creamy tomato curry with tender chicken
+Paneer Tikka,220,Starters,Veg,Grilled cottage cheese with spices
+Masala Dosa,80,South Indian,Veg,Crispy crepe with potato filling
+
+Now extract the menu from the following:`;
+
 
 export default function UploadPage() {
   const [selectedRestaurant, setSelectedRestaurant] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyPrompt = async () => {
+    try {
+      await navigator.clipboard.writeText(LLM_PROMPT);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -159,6 +192,49 @@ export default function UploadPage() {
               <li>Price must be a number (no symbols)</li>
               <li>Veg/Non-Veg must be exactly &quot;Veg&quot; or &quot;Non-Veg&quot;</li>
             </ul>
+            <a 
+              href="/templates/menu-template.csv" 
+              download="khazaana-menu-template.csv"
+              className="inline-flex items-center gap-2 mt-3 text-xs font-bold text-blue-700 bg-blue-100 hover:bg-blue-200 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              <Download className="w-3 h-3" />
+              Download CSV Template
+            </a>
+          </div>
+
+          {/* AI Menu Extraction Helper */}
+          <div className="bg-gradient-to-br from-purple-50 to-fuchsia-50 p-5 rounded-xl border border-purple-100">
+            <h4 className="text-sm font-bold text-purple-900 mb-2 flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                AI Menu Extraction (ChatGPT / Claude)
+            </h4>
+            <p className="text-xs text-purple-700 mb-3">
+              Have a menu PDF or image? Use this prompt with ChatGPT or Claude to extract menu data into Khazaana-compatible CSV format.
+            </p>
+            <div className="bg-white/70 rounded-lg p-3 mb-3 max-h-32 overflow-y-auto">
+              <pre className="text-[10px] text-purple-800 whitespace-pre-wrap font-mono leading-relaxed">{LLM_PROMPT}</pre>
+            </div>
+            <button
+              type="button"
+              onClick={handleCopyPrompt}
+              className={`inline-flex items-center gap-2 text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+                copied 
+                  ? 'bg-green-500 text-white' 
+                  : 'bg-purple-600 text-white hover:bg-purple-700'
+              }`}
+            >
+              {copied ? (
+                <>
+                  <CheckCircle className="w-3 h-3" />
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3 h-3" />
+                  Copy Prompt
+                </>
+              )}
+            </button>
           </div>
 
           {/* Status Messages */}

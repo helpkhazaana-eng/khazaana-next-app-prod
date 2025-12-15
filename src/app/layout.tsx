@@ -84,8 +84,24 @@ export default function RootLayout({
   const jsonLd = generateLocalBusinessSchema();
 
   const content = (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Critical CSS to prevent FOUC (Flash of Unstyled Content) */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          /* Critical styles to prevent flash of unstyled content */
+          html { background-color: #F8FAFC; }
+          body { 
+            background-color: #F8FAFC; 
+            color: #0F172A; 
+            margin: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            -webkit-font-smoothing: antialiased;
+          }
+          /* Hide content until CSS loads */
+          .js-loading * { visibility: hidden; }
+          .js-loading { background-color: #F8FAFC; }
+        `}} />
+        
         {/* Preconnect to external origins for faster loading */}
         <link rel="preconnect" href="https://firestore.googleapis.com" />
         <link rel="preconnect" href="https://www.googleapis.com" />
